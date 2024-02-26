@@ -53,6 +53,8 @@ def predict(input_dataset, output_dataset):
     print(f"test_set MAE: {mae_test}")
 
 
-if __name__ == "__main__":
+
+
+_name__ == "__main__":
     predict("data/properties.csv", "output/predictions.csv" )
 
