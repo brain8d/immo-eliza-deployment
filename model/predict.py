@@ -1,29 +1,17 @@
-import click
 import joblib
 import pandas as pd
+from sklearn.metrics import mean_absolute_error
 
 
-
-@click.command()
-@click.option("-i", "--input-dataset", help="path to input .csv dataset", required=True)
-@click.option(
-    "-o",
-    "--output-dataset",
-    default="output/predictions.csv",
-    help="full path where to store predictions",
-    required=True,
-)
 def predict(input_dataset, output_dataset):
     """Predicts house prices from 'input_dataset', stores it to 'output_dataset'."""
-    ### -------- DO NOT TOUCH THE FOLLOWING LINES -------- ##
     # Load the data
     data = pd.read_csv(input_dataset)
-    ### -------------------------------------------------- ###
 
+    
     # Load the model artifacts using joblib
-    artifacts = joblib.load("models/Gradient_boost_artifacts.joblib")
+    artifacts = joblib.load("model/Gradient_boost_artifacts.joblib")
 
-   
 
     # Unpack the artifacts
     num_features = artifacts["features"]["num_features"]
@@ -33,13 +21,15 @@ def predict(input_dataset, output_dataset):
     enc = artifacts["enc"]
     model = artifacts["model"]
 
+
     # Extract the used data
     data_extr = data[num_features + fl_features + cat_features]
 
-   
+
     # Apply imputer and encoder on data
     data_extr[num_features] = imputer.transform(data_extr[num_features])
     data_cat = enc.transform(data_extr[cat_features]).toarray()
+    
 
     # Combine the numerical and one-hot encoded categorical columns
     data_processed = pd.concat(
@@ -59,17 +49,10 @@ def predict(input_dataset, output_dataset):
     # Save the predictions to a CSV file (in order of data input!)
     pd.DataFrame({"predictions": predictions}).to_csv(output_dataset, index=False)
 
-    # Print success messages
-    click.echo(click.style("Predictions generated successfully!", fg="green"))
-    click.echo(f"Saved to {output_dataset}")
-    click.echo(
-        f"Nbr. observations: {data_processed.shape[0]} | Nbr. predictions: {predictions.shape[0]}"
-    )
-    ### -------------------------------------------------- ###
+    mae_test = mean_absolute_error(data["price"], predictions)
+    print(f"test_set MAE: {mae_test}")
 
 
 if __name__ == "__main__":
-    # how to run on command line:
-    # python .\predict.py -i "data\properties.csv" -o "output\predictions.csv"
-    predict()
+    predict("data/properties.csv", "output/predictions.csv" )
 

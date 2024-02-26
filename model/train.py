@@ -11,7 +11,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 def train():
     # Load the data
-    data = pd.read_csv("data/properties_small.csv")
+    data = pd.read_csv("data/properties.csv")
     
     # Define features to use
     num_features = [
@@ -45,7 +45,7 @@ def train():
         "locality",
         "equipped_kitchen",
         "state_building",
-        "epc",
+        "epc"
         
     ]
 
@@ -89,7 +89,7 @@ def train():
     )
 
     # Instantiate the Gradient Boosting Regressor
-    model = GradientBoostingRegressor(n_estimators=100, max_depth=6, random_state=505)
+    model = GradientBoostingRegressor(n_estimators=200, max_depth=9, random_state=505)
     
     # Train the model
     model.fit(X_train, y_train)
@@ -124,7 +124,7 @@ def train():
         "enc": enc,
         "model": model,
     }
-    joblib.dump(artifacts, "models/Gradient_boost_artifacts.joblib")
+    joblib.dump(artifacts, "model/Gradient_boost_artifacts.joblib")
 
 
 if __name__ == "__main__":
