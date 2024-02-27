@@ -1,4 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+# Ignore all files in the venv folder
+venv/
+
+>>>>>>> 5e21f91de55b49a16ba80cda1dde6a279db4d53b
 venv/
 =======
 # Ignnore all files in the venv folder
