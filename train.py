@@ -8,7 +8,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
-def train():sssss
+def train():
     # Load the data
     data = pd.read_csv("data/properties.csv")
 
