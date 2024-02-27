@@ -40,7 +40,7 @@ DEFAULTS = {
 }
 
 # Load model and artifacts once during startup
-artifacts = joblib.load("models/artifacts.joblib")
+artifacts = joblib.load("model/artifacts.joblib")
 imputer = artifacts["imputer"]
 enc = artifacts["enc"]
 model = artifacts["model"]
