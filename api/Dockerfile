@@ -1,6 +1,7 @@
 FROM python:3.10.9
 WORKDIR /api
 COPY api/. /api
+<<<<<<< HEAD:Dockerfile
 COPY /api/models/. /api/models
 <<<<<<< HEAD
 COPY requirements.txt /api
@@ -9,6 +10,9 @@ ENTRYPOINT [ "uvicorn" ]
 EXPOSE 8000
 CMD ["--host", "0.0.0.0 ", "--port", "8000", "main:app"]
 =======
+=======
+COPY /api/model/. /api/model
+>>>>>>> e7fd0f3bd3cd07a8802d23d3f6025d1a0fe98f36:api/Dockerfile
 COPY api/main.py /api/main.py
 COPY requirements.txt /api
 RUN pip install --no-cache-dir -r requirements.txt

@@ -11,7 +11,7 @@ from typing import Dict, List, Union
 app = FastAPI()
 
 # Load model and artifacts once during startup
-artifacts = joblib.load("model\Gradient_boost_artifacts.joblib")
+artifacts = joblib.load("model/Gradient_boost_artifacts.joblib")
 imputer = artifacts["imputer"]
 enc = artifacts["enc"]
 model = artifacts["model"]
