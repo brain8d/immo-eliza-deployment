@@ -11,7 +11,7 @@ from typing import Dict, List, Union
 app = FastAPI()
 
 # Load model and artifacts once during startup
-artifacts = joblib.load("models/artifacts.joblib")
+artifacts = joblib.load("model\Gradient_boost_artifacts.joblib")
 imputer = artifacts["imputer"]
 enc = artifacts["enc"]
 model = artifacts["model"]
@@ -32,16 +32,16 @@ async def read_root():
 async def predict(features: Features):
     # Convert features to DataFrame
     data_df = pd.DataFrame([features.features])
-    
+
     # Separate numerical and categorical features based on artifacts
     num_features = [f for f in data_df.columns if f in artifacts["features"]["num_features"]]
     fl_features = [f for f in data_df.columns if f in artifacts["features"]["fl_features"]]
     cat_features = [f for f in data_df.columns if f in artifacts["features"]["cat_features"]]
-    
+
     # Process numerical features
     if num_features:
         data_df[num_features] = imputer.transform(data_df[num_features])
-    
+
     # Process categorical features
     if cat_features:
         data_cat = enc.transform(data_df[cat_features]).toarray()
@@ -53,4 +53,3 @@ async def predict(features: Features):
     predictions = model.predict(data_df)
 
     return {"predictions": predictions.tolist()}
-

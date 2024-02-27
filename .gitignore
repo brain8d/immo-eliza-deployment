@@ -3,7 +3,7 @@ venv/
 =======
 # Ignnore all files in the venv folder
 venv/
-
+.venv/
 >>>>>>> bd31a25b2d471f43986cf1511403b382b493f5f1
 # Byte-compiled / optimized / DLL files
 __pycache__/
