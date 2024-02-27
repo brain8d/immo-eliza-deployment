@@ -40,7 +40,7 @@ DEFAULTS = {
 }
 
 # Load model and artifacts once during startup
-artifacts = joblib.load("models/artifacts.joblib")
+artifacts = joblib.load("model/Gradient_boost_artifacts.joblib")
 imputer = artifacts["imputer"]
 enc = artifacts["enc"]
 model = artifacts["model"]
@@ -96,5 +96,6 @@ async def predict(features: Features):
 
     # Make predictions
     predictions = model.predict(data_df)
-
-    return {"predictions": predictions.tolist()}
+    
+    return f"{predictions:.2f}"
+    #return {"predictions": predictions.tolist()}
