@@ -9,7 +9,7 @@ def body(data):
     if data["region"].empty:
         data["region"] = "MISSING"
     if data["province"].empty:
-        data["province"] = "HOUSE"
+        data["province"] = "MISSING"
     if data["locality"].empty:
         data["locality"] = "MISSING"
     if data["zip_code"].empty:
