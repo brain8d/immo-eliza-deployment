@@ -4,9 +4,10 @@ import json
 import requests
 
 
-st.title("House price predictor by MerMade")
+st.title("How much is your home worth?")
+st.text("House price predictor by MerMade")
 
-option = st.selectbox(
+subproperty = st.selectbox(
     'What type of subproperty?',
     ("Apartment", "House"))
 
@@ -14,14 +15,9 @@ option = st.selectbox(
     'How many bedrooms?',
     (1, 2, 3, 4, 5, "6+"))
 
-st.write('You selected:', option)
 
 
-
-
-
-
-
+## Testing other visualization method
 data_df = pd.DataFrame(
     {
         "Price Range": [20, 950, 250, 500],
@@ -42,3 +38,15 @@ st.data_editor(
     },
     hide_index=True,
 )
+
+
+##----- Pseudo code 
+
+# dict_api = {
+#     param1: subproperty
+# }
+
+# r = request.get(dict_api, URL API)
+
+# json.load(r)
+
