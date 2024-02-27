@@ -1,5 +1,5 @@
-#from app.model.model import predict_pipeline
-#from app.model.model import version as model_version
+# from app.model.model import predict_pipeline
+# from app.model.model import version as model_version
 
 import joblib
 import numpy as np
@@ -17,26 +17,35 @@ enc = artifacts["enc"]
 model = artifacts["model"]
 
 # Features class
+
+
 class Features(BaseModel):
     num_features: Dict[str, float]
     fl_features: Dict[str, int]
     cat_features: Dict[str, str]
 
 # Check function
+
+
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to the Immo Eliza ML model API!"}
 
 # Predict function
+
+
 @app.post("/predict")
 async def predict(features: Features):
     # Convert features to DataFrame
     data_df = pd.DataFrame([features.features])
 
     # Separate numerical and categorical features based on artifacts
-    num_features = [f for f in data_df.columns if f in artifacts["features"]["num_features"]]
-    fl_features = [f for f in data_df.columns if f in artifacts["features"]["fl_features"]]
-    cat_features = [f for f in data_df.columns if f in artifacts["features"]["cat_features"]]
+    num_features = [
+        f for f in data_df.columns if f in artifacts["features"]["num_features"]]
+    fl_features = [
+        f for f in data_df.columns if f in artifacts["features"]["fl_features"]]
+    cat_features = [
+        f for f in data_df.columns if f in artifacts["features"]["cat_features"]]
 
     # Process numerical features
     if num_features:
