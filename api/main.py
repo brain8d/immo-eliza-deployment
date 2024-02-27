@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import sklearn
 from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Dict, List, Union
+from pydantic import BaseModel, Field
+from typing import Dict, List, Optional, Union
 
 app = FastAPI()
 
@@ -47,9 +47,21 @@ model = artifacts["model"]
 
 # Features class
 class Features(BaseModel):
-    num_features: Dict[str, float]
-    fl_features: Dict[str, int]
-    cat_features: Dict[str, str]
+    num_features: Dict[str, float] = Field(
+        default=DEFAULTS["num_features"],
+        example=DEFAULTS["num_features"],
+        description="Numerical features with their default values."
+    )
+    fl_features: Dict[str, int] = Field(
+        default=DEFAULTS["fl_features"],
+        example=DEFAULTS["fl_features"],
+        description="Flag features with their default values."
+    )
+    cat_features: Dict[str, str] = Field(
+        default=DEFAULTS["cat_features"],
+        example=DEFAULTS["cat_features"],
+        description="Categorical features with their default values."
+    )
 
 # Check function
 @app.get("/")

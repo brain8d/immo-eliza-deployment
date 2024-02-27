@@ -1,6 +1,7 @@
-# Ignnore all files in the venv folder
+# Ignore all files in the venv folder
 venv/
 
+venv/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
