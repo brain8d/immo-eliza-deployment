@@ -26,9 +26,9 @@ payload = {
         "zip_code": 1000,
         "nbr_bedrooms": bedrooms
         },   
-    # "fl_features": {
-    #     "fl_terrace": 0
-        # },   
+    "fl_features": {
+        "fl_terrace": 0
+        },   
     "cat_features": {
         "subproperty_type": subproperty,
         "epc": "A"   } 
