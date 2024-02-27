@@ -55,6 +55,3 @@ def predict(input_dataset, output_dataset):
 
 
 
-_name__ == "__main__":
-    predict("data/properties.csv", "output/predictions.csv" )
-
