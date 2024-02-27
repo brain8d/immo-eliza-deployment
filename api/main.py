@@ -1,6 +1,3 @@
-#from app.model.model import predict_pipeline
-#from app.model.model import version as model_version
-
 import joblib
 import numpy as np
 import pandas as pd
