@@ -30,9 +30,10 @@ payload = {
         "fl_terrace": 0
         },   
     "cat_features": {
-        "subproperty_type": subproperty,
-        "epc": "A"   } 
-        }
+        #"subproperty_type": subproperty, gives an error
+        "epc": "A"
+        } 
+    }
 
 # payload = {
 #     "num_features": {
