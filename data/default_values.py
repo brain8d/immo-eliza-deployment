@@ -58,10 +58,10 @@ def default_values (data_set):
     default_values_df = pd.DataFrame(default_values, index=[0])
     print (default_values_df.head())
 
-    default_values_df.to_csv("default_values.csv", index=False)
+    default_values_df.to_csv("data/default_values.csv", index=False)
 
     
 
     
 
-default_values("data/properties_small.csv")
+default_values("data/properties.csv")
