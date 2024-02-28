@@ -8,7 +8,7 @@ url = "https://immo-eliza-deployment-20bn.onrender.com/predict"
 # Streamlit app title
 st.title("Real Estate Price Prediction")
 
-dataLocality = pd.read_csv("data\locality_zip_codes.csv")
+dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
 
 #sylvan Order:
