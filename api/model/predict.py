@@ -53,5 +53,4 @@ def predict(input_dataset, output_dataset):
     print(f"test_set MAE: {mae_test}")
 
 
-predict("data/misty.csv", "data/preds.csv")
 
