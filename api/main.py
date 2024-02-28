@@ -10,17 +10,17 @@ app = FastAPI()
 
 DEFAULTS = {
     "num_features": {
-        "construction_year": 2000,
-        "latitude": 50.8503,
-        "longitude": 4.3517,
-        "total_area_sqm": 100.0,
-        "surface_land_sqm": 500.0,
-        "nbr_frontages": 2.0,
-        "nbr_bedrooms": 3.0,
-        "terrace_sqm": 10.0,
-        "primary_energy_consumption_sqm": 250.0,
-        "cadastral_income": 1000.0,
-        "garden_sqm": 50.0,
+        "construction_year": 1984,
+        "latitude": 50.88,
+        "longitude": 4.33,
+        "total_area_sqm": 163.67,
+        "surface_land_sqm": 1157,
+        "nbr_frontages": 2.80,
+        "nbr_bedrooms": 2.79,
+        "terrace_sqm": 11.58,
+        "primary_energy_consumption_sqm": 1668.74,
+        "cadastral_income": 1885.94,
+        "garden_sqm": 115.64,
         "zip_code": 1000
     },
     "fl_features": {
@@ -31,10 +31,10 @@ DEFAULTS = {
         "fl_double_glazing": 1
     },
     "cat_features": {
-        "subproperty_type": "APARTMENT",
-        "locality": "Brussels",
-        "equipped_kitchen": "NOT_INSTALLED",
-        "state_building": "TO_RENOVATE",
+        "subproperty_type": "MISSING",
+        "locality": "MISSING",
+        "equipped_kitchen": "MISSING",
+        "state_building": "MISSING",
         "epc": "MISSING"
     }
 }
@@ -96,6 +96,6 @@ async def predict(features: Features):
 
     # Make predictions
     predictions = model.predict(data_df)
-    
-    return f"{predictions:.2f}"
-    #return {"predictions": predictions.tolist()}
+    prediction = predictions.tolist()
+    #return f"{prediction[0]:.2f}"
+    return {"predictions": predictions.tolist()}
