@@ -1,5 +1,5 @@
 # Secret key streamlit
-.streamlit/
+.streamlit/.streamlit/secrets.toml
 
 # Ignore all files in the venv folder
 venv/
