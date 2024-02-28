@@ -18,20 +18,19 @@ col1, col2 = st.columns(2)
 with col1:
     subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","APARTMENT_BLOCK","BUNGALOW","CASTLE","CHALET","COUNTRY_COTTAGE","EXEPTIONAL_PROPERTY", "DUPLEX","FARMHOUSE", "FLAT_STUDIO","GROUND_FLOOR","LOFT","KOT","MANOR_HOUSE","MANSION","MIXED_USE_BUILDING","PENTHOUSE","SERVICE_FLAT","TOWN_HOUSE","TRIPLEX","VILLA", "HOUSE","OTHER_PROPERTY"))
     state_building = st.selectbox("Building State", ("MISSING","AS_NEW","GOOD","JUST_RENOVATED","TO_RESTORE","TO_RENOVATE","TO_BE_DONE_UP"))
+   
     locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
     if locality:
         data = dataLocality[dataLocality['locality'] == f"{locality}"]
         zip_code = st.selectbox("ZIP Code",data['zip_code'].to_list())
     
-    
     construction_year = st.number_input("Construction Year", value=2000, min_value=1800, max_value=2024)
     total_area_sqm = st.number_input("Total Area in sqm", value=10,min_value=10,max_value=15000)
     nbr_bedrooms = st.number_input("Number of Bedrooms", value=2, min_value=1, max_value=100)
-    equipped_kitchen = st.selectbox("Equipped Kitchen", ("MISSING", "INSTALLED", "HYPER_EQUIPPED","SEMI_EQUIPPED","NOT_INSTALLED","USA_UNINSTALLED","USA_HYPER_EQUIPPED","USA_SEMI_EQUIPPED",))
-
 
 with col2:
-   
+
+    equipped_kitchen = st.selectbox("Equipped Kitchen", ("MISSING", "INSTALLED", "HYPER_EQUIPPED","SEMI_EQUIPPED","NOT_INSTALLED","USA_UNINSTALLED","USA_HYPER_EQUIPPED","USA_SEMI_EQUIPPED",))
     surface_land_sqm = st.number_input("Land Area in sqm", value=150, min_value=10, max_value=1000000)
     nbr_frontages = st.number_input("Number of Frontages", value=0, min_value=0, max_value=10)
     epc = st.selectbox("Energy Performance Certificate", ("MISSING", "A","B","C","D","E","F"))
@@ -57,9 +56,7 @@ longitude = 0
 primary_energy_consumption_sqm = 0
 cadastral_income = 0
 
-# Button to send the request
-if st.button("Predict Price"):
-    payload = {
+payload = {
         "num_features": {
             "construction_year": construction_year,
             "latitude": latitude,
@@ -90,7 +87,9 @@ if st.button("Predict Price"):
         }
     }
 
-    print(payload)
+# Button to send the request
+if st.button("Predict Price"):
+    
     response = requests.post(url, json=payload)
     if response.status_code == 200:
         # Display the prediction result
