@@ -44,10 +44,6 @@ with col2:
 
     fl_swimming_pool = st.checkbox("Swimming Pool")
     
-   
-
-
-
 
     # Input manualy this
     latitude = 0
@@ -55,51 +51,46 @@ with col2:
     primary_energy_consumption_sqm = 0
     cadastral_income = 0
 
-    # Input fields for the flag features
-
-
-    
-
-    # Button to send the request
-    if st.button("Predict Price"):
-        payload = {
-            "num_features": {
-                "construction_year": construction_year,
-                "latitude": latitude,
-                "longitude": longitude,
-                "total_area_sqm": total_area_sqm,
-                "surface_land_sqm": surface_land_sqm,
-                "nbr_frontages": nbr_frontages,
-                "nbr_bedrooms": nbr_bedrooms,
-                "terrace_sqm": terrace_sqm,
-                "primary_energy_consumption_sqm": primary_energy_consumption_sqm,
-                "cadastral_income": cadastral_income,
-                "garden_sqm": garden_sqm,
-                "zip_code": zip_code
-            },
-            "fl_features": {
-                "fl_terrace": int(fl_terrace),
-                "fl_open_fire": int(fl_open_fire),
-                "fl_swimming_pool": int(fl_swimming_pool),
-                "fl_garden": int(fl_garden),
-                "fl_double_glazing": int(fl_double_glazing)
-            },
-            "cat_features": {
-                "subproperty_type": subproperty_type,
-                "locality": locality,
-                "equipped_kitchen": equipped_kitchen,
-                "state_building": state_building,
-                "epc": epc
-            }
+# Button to send the request
+if st.button("Predict Price"):
+    payload = {
+        "num_features": {
+            "construction_year": construction_year,
+            "latitude": latitude,
+            "longitude": longitude,
+            "total_area_sqm": total_area_sqm,
+            "surface_land_sqm": surface_land_sqm,
+            "nbr_frontages": nbr_frontages,
+            "nbr_bedrooms": nbr_bedrooms,
+            "terrace_sqm": terrace_sqm,
+            "primary_energy_consumption_sqm": primary_energy_consumption_sqm,
+            "cadastral_income": cadastral_income,
+            "garden_sqm": garden_sqm,
+            "zip_code": zip_code
+        },
+        "fl_features": {
+            "fl_terrace": int(fl_terrace),
+            "fl_open_fire": int(fl_open_fire),
+            "fl_swimming_pool": int(fl_swimming_pool),
+            "fl_garden": int(fl_garden),
+            "fl_double_glazing": int(fl_double_glazing)
+        },
+        "cat_features": {
+            "subproperty_type": subproperty_type,
+            "locality": locality,
+            "equipped_kitchen": equipped_kitchen,
+            "state_building": state_building,
+            "epc": epc
         }
+    }
 
-        print(payload)
-        response = requests.post(url, json=payload)
-        if response.status_code == 200:
-            # Display the prediction result
-            prediction = response.text
-            st.success(f"Predicted Price: {prediction}")
-        else:
-            # Handle errors
-            st.error(f"Failed to get response: {response.status_code}")
-            print(response.text)
+    print(payload)
+    response = requests.post(url, json=payload)
+    if response.status_code == 200:
+        # Display the prediction result
+        prediction = response.text
+        st.success(f"Predicted Price: {prediction}")
+    else:
+        # Handle errors
+        st.error(f"Failed to get response: {response.status_code}")
+        print(response.text)
