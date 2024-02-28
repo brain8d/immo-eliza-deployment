@@ -84,6 +84,6 @@ async def predict(features: Features):
 
     # Make predictions
     predictions = model.predict(data_df)
-    
-    return f"{predictions:.2f}"
+    prediction = predictions.tolist()
+    return f"{prediction[0]:.2f}"
     #return {"predictions": predictions.tolist()}
