@@ -10,6 +10,37 @@ from typing import Dict, List, Union
 
 app = FastAPI()
 
+DEFAULTS = {
+    "num_features": {
+        "construction_year": 1984,
+        "latitude": 50.88,
+        "longitude": 4.33,
+        "total_area_sqm": 163.67,
+        "surface_land_sqm": 1157,
+        "nbr_frontages": 2.80,
+        "nbr_bedrooms": 2.79,
+        "terrace_sqm": 11.58,
+        "primary_energy_consumption_sqm": 1668.74,
+        "cadastral_income": 1885.94,
+        "garden_sqm": 115.64,
+        "zip_code": 1000
+    },
+    "fl_features": {
+        "fl_terrace": 0,
+        "fl_open_fire": 0,
+        "fl_swimming_pool": 0,
+        "fl_garden": 0,
+        "fl_double_glazing": 1
+    },
+    "cat_features": {
+        "subproperty_type": "MISSING",
+        "locality": "MISSING",
+        "equipped_kitchen": "MISSING",
+        "state_building": "MISSING",
+        "epc": "MISSING"
+    }
+}
+
 # Load model and artifacts once during startup
 artifacts = joblib.load("model/Gradient_boost_artifacts.joblib")
 imputer = artifacts["imputer"]
