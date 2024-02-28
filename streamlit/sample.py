@@ -39,4 +39,4 @@ st.write(
 )
 
 if st.button("See on Map"):
-    st.write(maps(1083)) 
+    st.write(maps(2000)) 
