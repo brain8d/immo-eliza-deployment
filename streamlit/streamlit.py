@@ -2,10 +2,14 @@ import requests
 import streamlit as st
 
 # The URL of your FastAPI endpoint
-url = "https://immo-eliza-deployment-20bn.onrender.com/predict"
+# url = "https://immo-eliza-deployment-20bn.onrender.com/predict"
+
+url = st.secrets["api_url"]
+
 
 # Streamlit app title
 st.title("Real Estate Price Prediction")
+st.text("by MerMade")
 
 # Input fields for the numeric features
 construction_year = st.number_input("Construction Year", value=2000, min_value=1900, max_value=2024)
