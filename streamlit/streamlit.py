@@ -9,7 +9,7 @@ url = st.secrets["api_url"]
 st.title("Real Estate Price Prediction")
 st.text("by MerMade")
 
-dataLocality = pd.read_csv("data\locality_zip_codes.csv")
+dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
 
 #sylvan Order:
