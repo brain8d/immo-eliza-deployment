@@ -1,6 +1,8 @@
 import requests
 import streamlit as st
 import pandas as pd
+from maps import maps
+import folium
 
 # Secret key for API adress
 url = st.secrets["api_url"]
@@ -96,6 +98,7 @@ if st.button("Predict Price"):
         # Display the prediction result
         prediction = response.text
         st.success(f"Predicted Price: {prediction}")
+        st.write(maps(zip_code))        
     else:
         # Handle errors
         st.error(f"Failed to get response: {response.status_code}")
