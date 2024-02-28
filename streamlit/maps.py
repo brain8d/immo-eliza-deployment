@@ -1,7 +1,7 @@
 import folium
 import pandas as pd
 
-data = pd.read_csv('..\.\data\properties.csv')
+data = pd.read_csv('api\data\properties_small.csv')
 
 
 
