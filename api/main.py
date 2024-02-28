@@ -4,7 +4,7 @@ import pandas as pd
 import sklearn
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-from typing import Dict, List, Optional, Union
+from typing import Dict
 
 app = FastAPI()
 
@@ -18,7 +18,7 @@ DEFAULTS = {
         "nbr_frontages": 2.80,
         "nbr_bedrooms": 2.79,
         "terrace_sqm": 11.58,
-        "primary_energy_consumption_sqm": 1668.74,
+        "primary_energy_consumption_sqm": 250,
         "cadastral_income": 1885.94,
         "garden_sqm": 115.64,
         "zip_code": 1000
@@ -31,7 +31,7 @@ DEFAULTS = {
         "fl_double_glazing": 1
     },
     "cat_features": {
-        "subproperty_type": "MISSING",
+        "subproperty_type": "APARTMENT",
         "locality": "MISSING",
         "equipped_kitchen": "MISSING",
         "state_building": "MISSING",
@@ -49,24 +49,24 @@ model = artifacts["model"]
 class Features(BaseModel):
     num_features: Dict[str, float] = Field(
         default=DEFAULTS["num_features"],
-        example=DEFAULTS["num_features"],
+        example={"zip_code": 1000},
         description="Numerical features with their default values."
     )
     fl_features: Dict[str, int] = Field(
         default=DEFAULTS["fl_features"],
-        example=DEFAULTS["fl_features"],
+        example={"fl_garden": 1},
         description="Flag features with their default values."
     )
     cat_features: Dict[str, str] = Field(
         default=DEFAULTS["cat_features"],
-        example=DEFAULTS["cat_features"],
+        example={"epc": "A"},
         description="Categorical features with their default values."
     )
 
 # Check function
 @app.get("/")
 async def read_root():
-    return {"message": "Welcome to the Immo Eliza ML model API!"}
+    return {"message": "Immo Eliza ML model API is alive!"}
 
 # Predict function
 @app.post("/predict")
@@ -96,6 +96,14 @@ async def predict(features: Features):
 
     # Make predictions
     predictions = model.predict(data_df)
-    prediction = predictions.tolist()
-    #return f"{prediction[0]:.2f}"
-    return {"predictions": predictions.tolist()}
+    predicted_value = predictions.tolist()[0]
+
+    # Use model's performance to set range of predicted price
+    MAE = 80000
+    lower_bound = predicted_value - MAE
+    upper_bound = predicted_value + MAE
+
+    return {
+        "Prediction of price": f"€ {predicted_value:.0f}",
+        "Price range based on model accuracy": f"€ {lower_bound:.0f} - € {upper_bound:.0f}"
+    }
