@@ -20,8 +20,6 @@ with col1:
     total_area_sqm = st.number_input("Total Area in sqm", value=10,min_value=10,max_value=15000)
     nbr_bedrooms = st.number_input("Number of Bedrooms", value=2, min_value=1, max_value=100)
     equipped_kitchen = st.selectbox("Equipped Kitchen", ("MISSING", "INSTALLED", "HYPER_EQUIPPED","SEMI_EQUIPPED","NOT_INSTALLED","USA_UNINSTALLED","USA_HYPER_EQUIPPED","USA_SEMI_EQUIPPED",))
-    
-
 
 
 with col2:
@@ -45,11 +43,11 @@ with col2:
     fl_swimming_pool = st.checkbox("Swimming Pool")
     
 
-    # Input manualy this
-    latitude = 0
-    longitude = 0
-    primary_energy_consumption_sqm = 0
-    cadastral_income = 0
+# Input manualy this
+latitude = 0
+longitude = 0
+primary_energy_consumption_sqm = 0
+cadastral_income = 0
 
 # Button to send the request
 if st.button("Predict Price"):
