@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+# Secret key streamlit
+.streamlit/
+
 # Ignore all files in the venv folder
 venv/
 

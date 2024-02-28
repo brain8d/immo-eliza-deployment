@@ -2,11 +2,12 @@ import requests
 import streamlit as st
 import pandas as pd
 
-# The URL of your FastAPI endpoint
-url = "https://immo-eliza-deployment-20bn.onrender.com/predict"
+# Secret key for API adress
+url = st.secrets["api_url"]
 
 # Streamlit app title
 st.title("Real Estate Price Prediction")
+st.text("by MerMade")
 
 dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
