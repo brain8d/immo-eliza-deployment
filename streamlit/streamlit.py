@@ -1,11 +1,15 @@
 import requests
 import streamlit as st
+import pandas as pd
 
 # The URL of your FastAPI endpoint
 url = "https://immo-eliza-deployment-20bn.onrender.com/predict"
 
 # Streamlit app title
 st.title("Real Estate Price Prediction")
+
+dataLocality = pd.read_csv("data\locality_zip_codes.csv")
+
 
 #sylvan Order:
 
@@ -15,7 +19,11 @@ with col1:
     subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","APARTMENT_BLOCK","BUNGALOW","CASTLE","CHALET","COUNTRY_COTTAGE","EXEPTIONAL_PROPERTY", "DUPLEX","FARMHOUSE", "FLAT_STUDIO","GROUND_FLOOR","LOFT","KOT","MANOR_HOUSE","MANSION","MIXED_USE_BUILDING","PENTHOUSE","SERVICE_FLAT","TOWN_HOUSE","TRIPLEX","VILLA", "HOUSE","OTHER_PROPERTY"))
     state_building = st.selectbox("Building State", ("MISSING","AS_NEW","GOOD","JUST_RENOVATED","TO_RESTORE","TO_RENOVATE","TO_BE_DONE_UP"))
     locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
-    zip_code = st.number_input("ZIP Code", value=1000, format="%d")
+    if locality:
+        data = dataLocality[dataLocality['locality'] == f"{locality}"]
+        zip_code = st.selectbox("ZIP Code",data['zip_code'].to_list())
+    
+    
     construction_year = st.number_input("Construction Year", value=2000, min_value=1800, max_value=2024)
     total_area_sqm = st.number_input("Total Area in sqm", value=10,min_value=10,max_value=15000)
     nbr_bedrooms = st.number_input("Number of Bedrooms", value=2, min_value=1, max_value=100)
