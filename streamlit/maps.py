@@ -7,7 +7,7 @@ data = pd.read_csv('api\data\properties_small.csv')
 
 def maps(zipcode):
 
-    map = folium.Map(location=[50.850346, 4.351721], zoom_start=10)
+    map = folium.Map(location=[50.850346, 4.351721], zoom_start=14)
 
     last_location_add = []
     count = 0
@@ -63,6 +63,23 @@ def maps(zipcode):
                 last_location_add = row['latitude'], row['longitude']
 
 
+
+    legenda_html = '''
+     <div style="position: fixed; 
+     bottom: 50px; left: 50px; width: 155px; height: 170px; 
+     border:2px solid grey; z-index:9999; font-size:14px; background-color: white;
+     ">&nbsp; <i class="fa fa-building" style="color:black"></i> Apartments &nbsp; <br>
+      &nbsp; <i class="fa fa-house" style="color:black"></i> Houses &nbsp; <br>
+      &nbsp; <style="color:black"></i> PRICES: &nbsp; <br>
+      &nbsp; <i class="fa fa-map-marker" style="color:blue"></i> <= 200k &nbsp; <br>
+      &nbsp; <i class="fa fa-map-marker" style="color:green"></i> > 200k e <= 400k &nbsp; <br>
+      &nbsp; <i class="fa fa-map-marker" style="color:orange"></i> > 400k e <= 600k &nbsp; <br>
+      &nbsp; <i class="fa fa-map-marker" style="color:red"></i> > 600k e <= 800k &nbsp; <br>
+      &nbsp; <i class="fa fa-map-marker" style="color:black"></i> > 800k &nbsp; 
+     </div>
+     '''
+
+
     print(f"Total of Houses and Apartments: {count}")
     print(f"Total of Houses: {count_house}")
     print(f"% of Houses: {count_house/count*100:.2f}%")
@@ -92,7 +109,7 @@ def maps(zipcode):
         f"% of Houses and Apartments Price More than 800k: {count_black/count*100:.2f}%")
 
     map.location = last_location_add
+    map.get_root().html.add_child(folium.Element(legenda_html))
     map.show_in_browser()
-    return map
 
 

@@ -1,4 +1,5 @@
 import streamlit as st
+from maps import maps
 
 property_type = st.selectbox("Property Type", ["house", "apartment"])
 
@@ -36,3 +37,6 @@ st.write(
     living_space,
     "square meters",
 )
+
+if st.button("See on Map"):
+    st.write(maps(1083)) 
