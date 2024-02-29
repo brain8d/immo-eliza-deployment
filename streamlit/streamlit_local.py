@@ -21,7 +21,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","APARTMENT_BLOCK","BUNGALOW","CASTLE","CHALET","COUNTRY_COTTAGE","EXEPTIONAL_PROPERTY", "DUPLEX","FARMHOUSE", "FLAT_STUDIO","GROUND_FLOOR","LOFT","KOT","MANOR_HOUSE","MANSION","MIXED_USE_BUILDING","PENTHOUSE","SERVICE_FLAT","TOWN_HOUSE","TRIPLEX","VILLA", "HOUSE","OTHER_PROPERTY"))
-    state_building = st.selectbox("Building State", ("MISSING","AS_NEW","GOOD","JUST_RENOVATED","TO_RESTORE","TO_RENOVATE","TO_BE_DONE_UP"))
+    state_building = st.checkbox("Building State")
    
     locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
     if locality:
@@ -31,7 +31,7 @@ with col1:
     construction_year = st.number_input("Construction Year", value=2000, min_value=1800, max_value=2024)
     total_area_sqm = st.number_input("Total Area in sqm", value=150,min_value=10,max_value=1000)
     epc = st.selectbox("Energy Performance Certificate", ("MISSING", "A","B","C","D","E","F"))
-    equipped_kitchen = st.selectbox("Equipped Kitchen", ("MISSING", "INSTALLED", "HYPER_EQUIPPED","SEMI_EQUIPPED","NOT_INSTALLED","USA_UNINSTALLED","USA_HYPER_EQUIPPED","USA_SEMI_EQUIPPED",))
+    equipped_kitchen = st.checkbox("Equipped Kitchen")
 
 
 with col2:
@@ -57,22 +57,22 @@ with col2:
     
 
 # Input manualy this
-latitude = 0
-longitude = 0
-primary_energy_consumption_sqm = 0
-cadastral_income = 0
+#latitude = 0
+#longitude = 0
+#primary_energy_consumption_sqm = 0
+#cadastral_income = 0
 payload = {
         "num_features": {
             "construction_year": construction_year,
-            "latitude": latitude,
-            "longitude": longitude,
+            #"latitude": latitude,
+            #"longitude": longitude,
             "total_area_sqm": total_area_sqm,
             "surface_land_sqm": surface_land_sqm,
             "nbr_frontages": nbr_frontages,
             "nbr_bedrooms": nbr_bedrooms,
             "terrace_sqm": terrace_sqm,
-            "primary_energy_consumption_sqm": primary_energy_consumption_sqm,
-            "cadastral_income": cadastral_income,
+            #"primary_energy_consumption_sqm": primary_energy_consumption_sqm,
+            #"cadastral_income": cadastral_income,
             "garden_sqm": garden_sqm,
             "zip_code": zip_code
         },
@@ -86,8 +86,8 @@ payload = {
         "cat_features": {
             "subproperty_type": subproperty_type,
             "locality": locality,
-            "equipped_kitchen": equipped_kitchen,
-            "state_building": state_building,
+            "kitchen_clusterized": equipped_kitchen,
+            "state_building_clusterized": state_building,
             "epc": epc
         }
     }

@@ -20,7 +20,7 @@ dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 col1, col2 = st.columns(2)
 
 with col1:
-    subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","HOUSE"))
+    subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT",))
     locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
     if locality:
         data = dataLocality[dataLocality['locality'] == f"{locality}"]
