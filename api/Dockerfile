@@ -4,7 +4,7 @@ COPY api/. /api
 COPY /api/model/. /api/model
 COPY api/main.py /api/main.py
 COPY requirements.txt /api
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 #RUN pip install folium
 ENTRYPOINT ["uvicorn"]
 CMD ["main:app", "--host", "0.0.0.0", "--port", "8000"]
