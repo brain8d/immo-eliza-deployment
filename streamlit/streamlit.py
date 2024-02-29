@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 import pandas as pd
 from maps import maps
-#from streamlit_folium import folium_static
+from streamlit_folium import folium_static
 
 # Secret key for API adress
 url = st.secrets["api_url"]
