@@ -5,6 +5,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
@@ -16,15 +17,15 @@ def train():
     # Define features to use
     num_features = [
         "construction_year",
-        "latitude",
-        "longitude",
+        #"latitude",
+        #"longitude",
         "total_area_sqm",
         "surface_land_sqm",
         "nbr_frontages",
         "nbr_bedrooms",
         "terrace_sqm",
-        "primary_energy_consumption_sqm",
-        "cadastral_income",
+        #"primary_energy_consumption_sqm",
+        #"cadastral_income",
         "garden_sqm",
         "zip_code"
     ]
@@ -43,9 +44,12 @@ def train():
         #"property_type"
         "subproperty_type",
         "locality",
-        "equipped_kitchen",
-        "state_building",
-        "epc"
+        #"equipped_kitchen",
+        "kitchen_clusterized",
+        #"state_building",
+        "state_building_clusterized",
+        "epc",
+        #"zip_code_text"
         
     ]
 
@@ -55,7 +59,7 @@ def train():
 
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.20, random_state=505
+        X, y, test_size=0.15, random_state=505
     )
 
     # Impute numerical features missing values using SimpleImputer
@@ -89,7 +93,7 @@ def train():
     )
 
     # Instantiate the Gradient Boosting Regressor
-    model = GradientBoostingRegressor(n_estimators=200, max_depth=9, random_state=505)
+    model = GradientBoostingRegressor(n_estimators=275, max_depth=10, random_state=555)
     
     # Train the model
     model.fit(X_train, y_train)
@@ -124,7 +128,9 @@ def train():
         "enc": enc,
         "model": model,
     }
-    joblib.dump(artifacts, "model/Gradient_boost_artifacts.joblib")
+    joblib.dump(artifacts, "api/model/Gradient_boost_artifacts.joblib")
+
+    
 
 
 if __name__ == "__main__":
