@@ -1,11 +1,11 @@
 import folium
 import pandas as pd
 
-data = pd.read_csv('api\data\properties_small.csv')
+data = pd.read_csv('data/properties.csv')
 
 
 
-def maps(zipcode):
+def maps(zipcode,size_sqm,type):
 
     map = folium.Map(location=[50.850346, 4.351721], zoom_start=12)
 
@@ -20,47 +20,53 @@ def maps(zipcode):
     count_house = 0
 
     for index, row in data.iterrows():
-        if row['zip_code'] == zipcode:
 
-            if pd.notna(row['latitude']) and pd.notna(row['longitude']):
-                color = 'black'
-                icon = 'house'
-                count += 1
-                if row['price'] <= 800000:
-                    color = 'red'
-                if row['price'] <= 600000:
-                    color = 'orange'
-                if row['price'] <= 400000:
-                    color = 'green'
-                if row['price'] <= 200000:
-                    color = 'blue'
-                if row['property_type'] == 'APARTMENT':
-                    icon = 'building'
+        if row['property_type'] == type:
+            if row['zip_code'] == zipcode:
+                if(size_sqm-10) <= row["total_area_sqm"] <=(size_sqm+10):
+                    
+                    if pd.notna(row['latitude']) and pd.notna(row['longitude']):
+                        color = 'black'
+                        icon = 'house'
+                        count += 1
+                        if row['price'] <= 800000:
+                            color = 'red'
+                        if row['price'] <= 600000:
+                            color = 'orange'
+                        if row['price'] <= 400000:
+                            color = 'green'
+                        if row['price'] <= 200000:
+                            color = 'blue'
+                        if row['property_type'] == 'APARTMENT':
+                            icon = 'building'
 
-                coords = [row['latitude'], row['longitude']]
-                folium.Marker(coords, tooltip="Click for More", popup=(f"\nID:{row['id']}"
-                                                                    f"\nPrice:{row['price']}"
-                                                                    f"\nEnergy:{row['epc']}"
-                                                                    f"\nPostal:{row['zip_code']}"
-                                                                    f"\nBedrooms:{row['nbr_bedrooms']}"
-                                                                    f"\nSurface:{row['total_area_sqm']}"),
-                            icon=folium.Icon(icon=icon, prefix='fa', color=color)).add_to(map)
-                if icon == 'building':
-                    count_apartment += 1
-                if icon == 'house':
-                    count_house += 1
-                if color == 'blue':
-                    count_blue += 1
-                if color == 'green':
-                    count_green += 1
-                if color == 'orange':
-                    count_orange += 1
-                if color == 'red':
-                    count_red += 1
-                if color == 'black':
-                    count_black += 1
+                        if(size_sqm-10) <= row["total_area_sqm"] <=(size_sqm+10):
+                            icon = "star"
+                        
+                        coords = [row['latitude'], row['longitude']]
+                        folium.Marker(coords, tooltip="Click for More", popup=(f"\nID:{row['id']}"
+                                                                            f"\nPrice:{row['price']}"
+                                                                            f"\nEnergy:{row['epc']}"
+                                                                            f"\nPostal:{row['zip_code']}"
+                                                                            f"\nBedrooms:{row['nbr_bedrooms']}"
+                                                                            f"\nSurface:{row['total_area_sqm']}"),
+                                    icon=folium.Icon(icon=icon, prefix='fa', color=color)).add_to(map)
+                        if icon == 'building':
+                            count_apartment += 1
+                        if icon == 'house':
+                            count_house += 1
+                        if color == 'blue':
+                            count_blue += 1
+                        if color == 'green':
+                            count_green += 1
+                        if color == 'orange':
+                            count_orange += 1
+                        if color == 'red':
+                            count_red += 1
+                        if color == 'black':
+                            count_black += 1
 
-                last_location_add = row['latitude'], row['longitude']
+                        last_location_add = row['latitude'], row['longitude']
 
 
 
