@@ -5,7 +5,7 @@ data = pd.read_csv('api\data\properties_small.csv')
 
 
 
-def maps(zipcode):
+def maps(zipcode,):
 
     map = folium.Map(location=[50.850346, 4.351721], zoom_start=12)
 
@@ -20,6 +20,7 @@ def maps(zipcode):
     count_house = 0
 
     for index, row in data.iterrows():
+
         if row['zip_code'] == zipcode:
 
             if pd.notna(row['latitude']) and pd.notna(row['longitude']):
