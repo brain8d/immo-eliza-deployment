@@ -9,7 +9,8 @@ def predict(input_dataset, output_dataset):
     data = pd.read_csv(input_dataset)
 
     # Load the model artifacts using joblib
-    artifacts = joblib.load("model/Gradient_boost_artifacts.joblib")
+    artifacts = joblib.load("api/model/Gradient_boost_artifacts.joblib")
+
 
     # Unpack the artifacts
     num_features = artifacts["features"]["num_features"]
@@ -45,3 +46,6 @@ def predict(input_dataset, output_dataset):
 
     mae_test = mean_absolute_error(data["price"], predictions)
     print(f"test_set MAE: {mae_test}")
+
+
+
