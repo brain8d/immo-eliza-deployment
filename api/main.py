@@ -3,24 +3,24 @@ import numpy as np
 import pandas as pd
 import sklearn
 from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Dict, List, Union
+from pydantic import BaseModel, Field
+from typing import Dict
 
 app = FastAPI()
 
 DEFAULTS = {
     "num_features": {
-        "construction_year": 2000,
-        "latitude": 50.8503,
-        "longitude": 4.3517,
-        "total_area_sqm": 100.0,
-        "surface_land_sqm": 500.0,
-        "nbr_frontages": 2.0,
-        "nbr_bedrooms": 3.0,
-        "terrace_sqm": 10.0,
-        "primary_energy_consumption_sqm": 250.0,
-        "cadastral_income": 1000.0,
-        "garden_sqm": 50.0,
+        "construction_year": 1984,
+        #"latitude": 50.88,
+        #"longitude": 4.33,
+        "total_area_sqm": 163.67,
+        "surface_land_sqm": 1157,
+        "nbr_frontages": 2.80,
+        "nbr_bedrooms": 2.79,
+        "terrace_sqm": 11.58,
+        #"primary_energy_consumption_sqm": 1668.74,
+        #"cadastral_income": 1885.94,
+        "garden_sqm": 115.64,
         "zip_code": 1000
     },
     "fl_features": {
@@ -32,9 +32,11 @@ DEFAULTS = {
     },
     "cat_features": {
         "subproperty_type": "APARTMENT",
-        "locality": "Brussels",
-        "equipped_kitchen": "NOT_INSTALLED",
-        "state_building": "TO_RENOVATE",
+        "locality": "MISSING",
+        #"equipped_kitchen": "MISSING",
+        "kitchen_clusterized" : "MISSING" ,
+        "state_building_clusterized" : "MISSING",
+        #"state_building": "MISSING",
         "epc": "MISSING"
     }
 }
@@ -47,14 +49,26 @@ model = artifacts["model"]
 
 # Features class
 class Features(BaseModel):
-    num_features: Dict[str, float]
-    fl_features: Dict[str, int]
-    cat_features: Dict[str, str]
+    num_features: Dict[str, float] = Field(
+        default=DEFAULTS["num_features"],
+        example={"zip_code": 1000},
+        description="Numerical features with their default values."
+    )
+    fl_features: Dict[str, int] = Field(
+        default=DEFAULTS["fl_features"],
+        example={"fl_garden": 1},
+        description="Flag features with their default values."
+    )
+    cat_features: Dict[str, str] = Field(
+        default=DEFAULTS["cat_features"],
+        example={"epc": "A"},
+        description="Categorical features with their default values."
+    )
 
 # Check function
 @app.get("/")
 async def read_root():
-    return {"message": "Welcome to the Immo Eliza ML model API!"}
+    return {"message": "Immo Eliza ML model API is alive!"}
 
 # Predict function
 @app.post("/predict")
@@ -84,6 +98,14 @@ async def predict(features: Features):
 
     # Make predictions
     predictions = model.predict(data_df)
-    
-    return f"{predictions:.2f}"
-    #return {"predictions": predictions.tolist()}
+    predicted_value = predictions.tolist()[0]
+
+    # Use model's performance to set range of predicted price
+    MAE = 80000
+    lower_bound = predicted_value - MAE
+    upper_bound = predicted_value + MAE
+
+    return {
+        "Prediction of price": f"€ {predicted_value:.0f}",
+        "Price range based on model accuracy": f"€ {lower_bound:.0f} - € {upper_bound:.0f}"
+    }

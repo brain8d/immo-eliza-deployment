@@ -9,11 +9,11 @@ url = st.secrets["api_url"]
 
 # Streamlit app title
 
+
 st.markdown("<h1 style='text-align: center;'>Real Estate Price Prediction</h1><br>", unsafe_allow_html=True)
-
-
+st.title("Real Estate Price Prediction")
+st.text("by MerMade")
 dataLocality = pd.read_csv("data/locality_zip_codes.csv")
-
 
 #sylvan Order:
 
