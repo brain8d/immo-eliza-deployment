@@ -17,7 +17,7 @@ dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
 #sylvan Order:
 
-col1, col2 = st.columns(2)
+col1, spacer, col2 = st.columns([1,0.4,1])
 
 with col1:
     subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT",))
