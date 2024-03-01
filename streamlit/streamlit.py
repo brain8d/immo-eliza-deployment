@@ -17,7 +17,7 @@ dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
 #sylvan Order:
 
-col1,spacer, col2 = st.columns([1,0.4,1])
+col1,spacer, col2 = st.columns([1,0.25,1])
 
 with col1:
     subproperty_type_dict = {
@@ -48,11 +48,15 @@ with col1:
 
     switched_dict = {value: key for key, value in subproperty_type_dict.items()}
 
-    property_type = "HOUSE"
+    
 
     subproperty_type_key = st.selectbox("Property Type", list(switched_dict.keys()))
     subproperty_type_value = switched_dict[subproperty_type_key]
 
+    if subproperty_type_value == "APARTMENT" or "DUPLEX" or "FLAT_STUDIO" or "GROUND_FLOOR" or "KOT" or "LOFT" or "PENTHOUSE" or "SERVICE_FLAT" or "TRIPLEX":
+        property_type = "APARTMENT"
+    else:
+        property_type = "HOUSE"
 
     locality = st.selectbox(
         "Locality",
@@ -113,8 +117,11 @@ with col1:
     )
     epc = st.selectbox(
         "Energy Performance Certificate",
-        ("MISSING", "A++", "A+", "A", "B", "C", "D", "E", "F","G"),
+        ("A++", "A+", "A", "B", "C", "D", "E", "F","G","Unknown"),
     )
+    if epc == "Unknown":
+        epc = "MISSING"
+        
     equipped_kitchen = st.checkbox(
         "Is your kitchen equipped?",
     )
@@ -129,9 +136,6 @@ with col2:
     )
     nbr_frontages = st.slider("Number of Frontages", value=1, min_value=0, max_value=5)
 
-    fl_double_glazing = st.checkbox("Double Glazing")
-    fl_open_fire = st.checkbox("Open Fire")
-    fl_swimming_pool = st.checkbox("Swimming Pool")
     fl_terrace = st.checkbox("Terrace", value=True)
     if fl_terrace:
         terrace_sqm = st.slider(
@@ -146,7 +150,11 @@ with col2:
         )
     else:
         garden_sqm = 0
- 
+    fl_swimming_pool = st.checkbox("Swimming Pool")
+    fl_double_glazing = st.checkbox("Double Glazing")
+    fl_open_fire = st.checkbox("Open Fire")
+    
+
     
 
 # Input manualy this
@@ -173,12 +181,8 @@ payload = {
             "fl_double_glazing": int(fl_double_glazing)
         },
         "cat_features": {
-<<<<<<< HEAD
-            "subproperty_type": subproperty_type,
-=======
             "property_type": property_type,
             "subproperty_type": subproperty_type_value,
->>>>>>> 9dc18dfe571cc843114a4db1fcdbd90d8f72f1ef
             "locality": locality,
             "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
             "state_building_clusterized": "Yes" if state_building else "No",
@@ -187,6 +191,7 @@ payload = {
     }
 
 print(payload)
+prediction = 0
 
 col1, col2, col3, col4 = st.columns([1,2,1,1])
 with col2:
@@ -197,9 +202,8 @@ with col2:
             response = requests.post(url, json=payload)
             if response.status_code == 200:
                 # Display the prediction result
-                prediction = response.text
-                st.success(f'<span style="font-size:24px;">Your property price : {prediction["Prediction of price"]}</span>', unsafe_allow_html=True)
-                st.success(f'<span style="font-size:24px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</span>', unsafe_allow_html=True)
+                prediction = response.json()
+
                     
             else:
                 # Handle errors
@@ -212,21 +216,33 @@ with col2:
 with col3:
     see_map = st.button("See on Map")
 
+col1, col2, col3 = st.columns([1,2,1])
+
+if prediction:
+    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkgreen; padding:10px; border-radius:10px;">Your property price : {prediction["Prediction of price"]}</div>', unsafe_allow_html=True) 
+    st.markdown("")
+    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkorange; padding:10px; border-radius:10px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</div>', unsafe_allow_html=True) 
+
+
+
 if see_map:
-    folium_static(maps(zip_code,total_area_sqm,subproperty_type_value))
-    #st.map(maps(zip_code))  
-    st.markdown("""
-    <div style="text-align: center;">
-        <h4>Legenda</h4>
-        <i class="fa fa-building" style="color:black"></i> Apartments <br>
-        <i class="fa fa-house" style="color:black"></i> Houses <br>
-        <i class="fa fa-map-marker" style="color:blue"></i> <= 200k <br>
-        <i class="fa fa-map-marker" style="color:green"></i> > 200k and <= 400k <br>
-        <i class="fa fa-map-marker" style="color:orange"></i> > 400k and <= 600k <br>
-        <i class="fa fa-map-marker" style="color:red"></i> > 600k and <= 800k <br>
-        <i class="fa fa-map-marker" style="color:black"></i> > 800k <br>
-    </div>
-    """, unsafe_allow_html=True)
-    
+    try:
+        folium_static(maps(zip_code,total_area_sqm,property_type))
+        #st.map(maps(zip_code))  
+        st.markdown("""
+        <div style="text-align: center;">
+            <h4>Legend</h4>
+            <div class="fa fa-building" style="color:black"></div> Apartments <br>
+            <i class="fa fa-house" style="color:black"></i> Houses <br>
+            <i class="fa fa-map-marker" style="color:red"></i> Budget-friendly <br>
+            <i class="fa fa-map-marker" style="color:orange"></i> Mid-range <br>
+            <i class="fa fa-map-marker" style="color:green"></i> Upscale <br>
+            <i class="fa fa-map-marker" style="color:blue"></i> Luxurius <br>
+            <i class="fa fa-map-marker" style="color:black"></i> Overprice <br>
+        </div>
+        """, unsafe_allow_html=True)
+    except Exception as e:
+
+        st.error(f"Sorry, is no matching houses in the neighborhod Selected")  
 
     
