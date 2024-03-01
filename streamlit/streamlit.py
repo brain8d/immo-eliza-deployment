@@ -53,7 +53,7 @@ with col1:
     subproperty_type_key = st.selectbox("Property Type", list(switched_dict.keys()))
     subproperty_type_value = switched_dict[subproperty_type_key]
 
-    if subproperty_type_value == "APARTMENT" or "DUPLEX" or "FLAT_STUDIO" or "GROUND_FLOOR" or "KOT" or "LOFT" or "PENTHOUSE" or "SERVICE_FLAT" or "TRIPLEX":
+    if subproperty_type_value in ("APARTMENT", "DUPLEX", "FLAT_STUDIO", "GROUND_FLOOR", "KOT", "LOFT", "PENTHOUSE", "SERVICE_FLAT", "TRIPLEX"):        
         property_type = "APARTMENT"
     else:
         property_type = "HOUSE"

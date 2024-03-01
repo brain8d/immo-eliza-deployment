@@ -119,6 +119,6 @@ def maps(zipcode,size_sqm,type):
 
     map.location = last_location_add
     map.get_root().html.add_child(folium.Element(legenda_html))
-    map.show_in_browser()
+    #map.show_in_browser()
     return map
 
