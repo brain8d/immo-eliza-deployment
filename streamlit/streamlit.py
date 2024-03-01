@@ -1,7 +1,7 @@
 import requests
 import streamlit as st
 import pandas as pd
-from maps import maps
+from pages.maps.maps import maps, maps_neighboorhood
 from streamlit_folium import folium_static
 
 # Secret key for API adress
@@ -193,7 +193,7 @@ payload = {
 print(payload)
 prediction = 0
 
-col1, col2, col3, col4 = st.columns([1,2,1,1])
+col1, col2, col3, col4 = st.columns([0.5,2,2,2])
 with col2:
 
     # Button to send the request
@@ -214,7 +214,9 @@ with col2:
             st.error(f"An error occurred: {str(e)}")            
 
 with col3:
-    see_map = st.button("See on Map")
+    see_map = st.button("Discover Matching Homes")
+with col4:
+    see_map_neighboorhood = st.button("View Neighborhood Map")
 
 col1, col2, col3 = st.columns([1,2,1])
 
@@ -226,23 +228,56 @@ if prediction:
 
 
 if see_map:
-    try:
-        folium_static(maps(zip_code,total_area_sqm,property_type))
-        #st.map(maps(zip_code))  
-        st.markdown("""
-        <div style="text-align: center;">
-            <h4>Legend</h4>
-            <div class="fa fa-building" style="color:black"></div> Apartments <br>
-            <i class="fa fa-house" style="color:black"></i> Houses <br>
-            <i class="fa fa-map-marker" style="color:red"></i> Budget-friendly <br>
-            <i class="fa fa-map-marker" style="color:orange"></i> Mid-range <br>
-            <i class="fa fa-map-marker" style="color:green"></i> Upscale <br>
-            <i class="fa fa-map-marker" style="color:blue"></i> Luxurius <br>
-            <i class="fa fa-map-marker" style="color:black"></i> Overprice <br>
-        </div>
-        """, unsafe_allow_html=True)
-    except Exception as e:
+    col1, col2 = st.columns([4,1])
+    with col1:
+        try:
+            folium_static(maps(zip_code,total_area_sqm,property_type), width=720, height=430)  
+        except Exception as e:
 
-        st.error(f"Sorry, no matching houses in the selected neighborhod.")  
+            st.error(f"Sorry, no matching houses in the selected neighborhod.")  
 
-    
+    with col2:
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.image("streamlit\imgs\legend.png")  
+
+if see_map_neighboorhood:
+    col1, col2 = st.columns([4,1])
+    with col1:
+        try:
+            folium_static(maps_neighboorhood(zip_code), width=720, height=430)  
+        except Exception as e:
+
+            st.error(f"Sorry, no matching houses in the selected neighborhod.")  
+
+    with col2:
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.markdown("")
+        st.image("streamlit\imgs\legend.png")           
+        
