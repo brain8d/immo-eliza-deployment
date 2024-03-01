@@ -243,6 +243,6 @@ if see_map:
         """, unsafe_allow_html=True)
     except Exception as e:
 
-        st.error(f"Sorry, is no matching houses in the neighborhod Selected")  
+        st.error(f"Sorry, no matching houses in the selected neighborhod.")  
 
     
