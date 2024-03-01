@@ -41,7 +41,7 @@ def train():
     ]
 
     cat_features = [
-        #"property_type"
+        "property_type",
         "subproperty_type",
         "locality",
         #"equipped_kitchen",
@@ -59,7 +59,7 @@ def train():
 
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.15, random_state=505
+        X, y, test_size=0.20, random_state=405
     )
 
     # Impute numerical features missing values using SimpleImputer
