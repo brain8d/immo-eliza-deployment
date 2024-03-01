@@ -110,41 +110,41 @@ elif page == "Price prediction":
     
         
 
-    # Input manualy this
-    #latitude = 0
-    #longitude = 0
-    #primary_energy_consumption_sqm = 0
-    #cadastral_income = 0
-    payload = {
-            "num_features": {
-                "construction_year": construction_year,
-                #"latitude": latitude,
-                #"longitude": longitude,
-                "total_area_sqm": total_area_sqm,
-                "surface_land_sqm": surface_land_sqm,
-                "nbr_frontages": nbr_frontages,
-                "nbr_bedrooms": nbr_bedrooms,
-                "terrace_sqm": terrace_sqm,
-                #"primary_energy_consumption_sqm": primary_energy_consumption_sqm,
-                #"cadastral_income": cadastral_income,
-                "garden_sqm": garden_sqm,
-                "zip_code": zip_code
-            },
-            "fl_features": {
-                "fl_terrace": int(fl_terrace),
-                "fl_open_fire": int(fl_open_fire),
-                "fl_swimming_pool": int(fl_swimming_pool),
-                "fl_garden": int(fl_garden),
-                "fl_double_glazing": int(fl_double_glazing)
-            },
-            "cat_features": {
-                "property_type": subproperty_type,
-                "locality": locality,
-                "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
-                "state_building_clusterized": "Yes" if state_building else "No",
-                "epc": epc
-            }
+# Input manualy this
+#latitude = 0
+#longitude = 0
+#primary_energy_consumption_sqm = 0
+#cadastral_income = 0
+payload = {
+        "num_features": {
+            "construction_year": construction_year,
+            #"latitude": latitude,
+            #"longitude": longitude,
+            "total_area_sqm": total_area_sqm,
+            "surface_land_sqm": surface_land_sqm,
+            "nbr_frontages": nbr_frontages,
+            "nbr_bedrooms": nbr_bedrooms,
+            "terrace_sqm": terrace_sqm,
+            #"primary_energy_consumption_sqm": primary_energy_consumption_sqm,
+            #"cadastral_income": cadastral_income,
+            "garden_sqm": garden_sqm,
+            "zip_code": zip_code
+        },
+        "fl_features": {
+            "fl_terrace": int(fl_terrace),
+            "fl_open_fire": int(fl_open_fire),
+            "fl_swimming_pool": int(fl_swimming_pool),
+            "fl_garden": int(fl_garden),
+            "fl_double_glazing": int(fl_double_glazing)
+        },
+        "cat_features": {
+            "subproperty_type": subproperty_type,
+            "locality": locality,
+            "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
+            "state_building_clusterized": "Yes" if state_building else "No",
+            "epc": epc
         }
+    }
 
 
     col1, col2, col3, col4 = st.columns([1,2,1,1])
