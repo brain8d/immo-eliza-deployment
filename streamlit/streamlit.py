@@ -17,10 +17,12 @@ dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
 #sylvan Order:
 
-col1, col2 = st.columns(2)
+col1,spacer, col2 = st.columns([1,0.4,1])
 
 with col1:
-    subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT",))
+
+    property_type = st.selectbox("Subproperty Type", ("APARTMENT","HOUSE"))
+    subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","HOUSE"))
     locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
     if locality:
         data = dataLocality[dataLocality['locality'] == f"{locality}"]
@@ -81,7 +83,8 @@ payload = {
             "fl_double_glazing": int(fl_double_glazing)
         },
         "cat_features": {
-            "property_type": subproperty_type,
+            "property_type": property_type,
+            "subproperty_type": subproperty_type,
             "locality": locality,
             "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
             "state_building_clusterized": "Yes" if state_building else "No",
@@ -100,7 +103,8 @@ with col2:
         if response.status_code == 200:
             # Display the prediction result
             prediction = response.text
-            st.success(f"Predicted Price: {prediction}")
+            st.success(f'<span style="font-size:24px;">Your property price : {prediction["Prediction of price"]}</span>', unsafe_allow_html=True)
+            st.success(f'<span style="font-size:24px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</span>', unsafe_allow_html=True)
                 
         else:
             # Handle errors
