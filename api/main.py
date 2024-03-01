@@ -31,6 +31,7 @@ DEFAULTS = {
         "fl_double_glazing": 1
     },
     "cat_features": {
+        "property_type": "APARTMENT",
         "subproperty_type": "APARTMENT",
         "locality": "MISSING",
         #"equipped_kitchen": "MISSING",

@@ -63,15 +63,11 @@ with col2:
 payload = {
         "num_features": {
             "construction_year": construction_year,
-            #"latitude": latitude,
-            #"longitude": longitude,
             "total_area_sqm": total_area_sqm,
             "surface_land_sqm": surface_land_sqm,
             "nbr_frontages": nbr_frontages,
             "nbr_bedrooms": nbr_bedrooms,
             "terrace_sqm": terrace_sqm,
-            #"primary_energy_consumption_sqm": primary_energy_consumption_sqm,
-            #"cadastral_income": cadastral_income,
             "garden_sqm": garden_sqm,
             "zip_code": zip_code
         },
@@ -83,15 +79,15 @@ payload = {
             "fl_double_glazing": int(fl_double_glazing)
         },
         "cat_features": {
-            "property_type": "HOUSE",
-            "subproperty_type": "HOUSE",
+            "property_type": property_type,
+            "subproperty_type": subproperty_type,
             "locality": locality,
             "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
             "state_building_clusterized": "Yes" if state_building else "No",
             "epc": epc
         }
     }
-    
+
 print(payload)
 
 col1, col2, col3, col4 = st.columns([1,2,1,1])
@@ -99,18 +95,21 @@ with col2:
 
     # Button to send the request
     if st.button("Predict Price"):
-        
-        response = requests.post(url, json=payload)
-        if response.status_code == 200:
-            # Display the prediction result
-            prediction = response.text
-            st.success(f'<span style="font-size:24px;">Your property price : {prediction["Prediction of price"]}</span>', unsafe_allow_html=True)
-            st.success(f'<span style="font-size:24px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</span>', unsafe_allow_html=True)
-                
-        else:
-            # Handle errors
-            st.error(f"Failed to get response: {response.status_code}")
-            print(response.text)
+        try:
+            response = requests.post(url, json=payload)
+            if response.status_code == 200:
+                # Display the prediction result
+                prediction = response.text
+                st.success(f'<span style="font-size:24px;">Your property price : {prediction["Prediction of price"]}</span>', unsafe_allow_html=True)
+                st.success(f'<span style="font-size:24px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</span>', unsafe_allow_html=True)
+                    
+            else:
+                # Handle errors
+                st.error(f"Failed to get response: {response.status_code}")
+                print(response.text)
+        except Exception as e:
+
+            st.error(f"An error occurred: {str(e)}")            
 
 with col3:
     see_map = st.button("See on Map")
