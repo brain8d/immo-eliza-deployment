@@ -39,7 +39,7 @@ if page == "Home":
     # Display a logo and a title
     st.image("imgs/logo.png", width=100)
     st.title("Real Estate Price Prediction API")
-    st.text("by MERMAID")
+    st.text("by MerMade")
     st.markdown(horizontal_bar, True)
     st.subheader("Our project")
     st.markdown("""
