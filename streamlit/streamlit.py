@@ -81,7 +81,7 @@ payload = {
             "fl_double_glazing": int(fl_double_glazing)
         },
         "cat_features": {
-            "property_type": subproperty_type,
+            "subproperty_type": subproperty_type,
             "locality": locality,
             "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
             "state_building_clusterized": "Yes" if state_building else "No",
