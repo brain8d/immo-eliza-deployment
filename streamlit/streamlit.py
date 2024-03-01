@@ -27,7 +27,7 @@ with col1:
         zip_code = st.selectbox("ZIP Code",data['zip_code'].to_list())   
     construction_year = st.number_input("Construction Year", value=2000, min_value=1800, max_value=2024)
     total_area_sqm = st.number_input("Total Area in sqm", value=150,min_value=10,max_value=1000)
-    epc = st.selectbox("Energy Performance Certificate", ("MISSING","A++","", "A","B","C","D","E","F"))
+    epc = st.selectbox("Energy Performance Certificate", ("MISSING","A++","A+","A","B","C","D","E","F","G"))
     nbr_bedrooms = st.slider("Number of Bedrooms", value=3, min_value=1, max_value=10)
     nbr_frontages = st.slider("Number of Frontages", value=1, min_value=0, max_value=5)
 
