@@ -20,38 +20,132 @@ dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 col1,spacer, col2 = st.columns([1,0.4,1])
 
 with col1:
+    subproperty_type_dict = {
+        "APARTMENT": "Apartment",
+        "HOUSE": "House",
+        "APARTMENT_BLOCK": "Apartment Block",
+        "BUNGALOW": "Bungalow",
+        "CASTLE": "Castle",
+        "CHALET": "Chalet",
+        "COUNTRY_COTTAGE": "Country Cottage",
+        "EXEPTIONAL_PROPERTY": "Exceptional Property",
+        "DUPLEX": "Duplex",
+        "FARMHOUSE": "Farmhouse",
+        "FLAT_STUDIO": "Flat Studio",
+        "GROUND_FLOOR": "Ground Floor",
+        "LOFT": "Loft",
+        "KOT": "Kot",
+        "MANOR_HOUSE": "Manor House",
+        "MANSION": "Mansion",
+        "MIXED_USE_BUILDING": "Mixed Use Building",
+        "PENTHOUSE": "Penthouse",
+        "SERVICE_FLAT": "Service Flat",
+        "TOWN_HOUSE": "Town House",
+        "TRIPLEX": "Triplex",
+        "VILLA": "Villa",
+        "OTHER_PROPERTY": "Other Property",
+    }
 
-    property_type = st.selectbox("Property Type", ("HOUSE","APARTMENT"))
-    subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","HOUSE"))
-    locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
+    switched_dict = {value: key for key, value in subproperty_type_dict.items()}
+
+    property_type = "HOUSE"
+
+    subproperty_type_key = st.selectbox("Property Type", list(switched_dict.keys()))
+    subproperty_type_value = switched_dict[subproperty_type_key]
+
+
+    locality = st.selectbox(
+        "Locality",
+        (
+            "Aalst",
+            "Antwerp",
+            "Arlon",
+            "Ath",
+            "Bastogne",
+            "Brugge",
+            "Brussels",
+            "Charleroi",
+            "Dendermonde",
+            "Diksmuide",
+            "Dinant",
+            "Eeklo",
+            "Gent",
+            "Halle-Vilvoorde",
+            "Hasselt",
+            "Huy",
+            "Ieper",
+            "Kortrijk",
+            "Leuven",
+            "Liège",
+            "Maaseik",
+            "Marche-en-Famenne",
+            "Mechelen",
+            "Mons",
+            "Mouscron",
+            "Namur",
+            "Neufchâteau",
+            "Nivelles",
+            "Oostend",
+            "Oudenaarde",
+            "Philippeville",
+            "Roeselare",
+            "Sint-Niklaas",
+            "Soignies",
+            "Thuin",
+            "Tielt",
+            "Tongeren",
+            "Tournai",
+            "Turnhout",
+            "Verviers",
+            "Veurne",
+            "Virton",
+            "Waremme",
+        ),
+    )
     if locality:
-        data = dataLocality[dataLocality['locality'] == f"{locality}"]
-        zip_code = st.selectbox("ZIP Code",data['zip_code'].to_list())   
-    construction_year = st.number_input("Construction Year", value=2000, min_value=1800, max_value=2024)
-    total_area_sqm = st.number_input("Total Area in sqm", value=150,min_value=10,max_value=1000)
-    epc = st.selectbox("Energy Performance Certificate", ("MISSING","A++","A+","A","B","C","D","E","F","G"))
+        data = dataLocality[dataLocality["locality"] == f"{locality}"]
+        zip_code = st.selectbox("ZIP Code", data["zip_code"].to_list()) 
+    construction_year = st.number_input(
+            "Construction Year", value=2000, min_value=1800, max_value=2024
+        )
+    total_area_sqm = st.number_input(
+        "Total Living Area in m²", value=150, min_value=10, max_value=1000
+    )
+    epc = st.selectbox(
+        "Energy Performance Certificate",
+        ("Missing", "A++", "A+", "A", "B", "C", "D", "E", "F"),
+    )
+    equipped_kitchen = st.checkbox(
+        "Is your kitchen equipped?",
+    )
+    state_building = st.checkbox(
+        "Property renovated in the last 2 years?",
+    )
+    
+with col2:
     nbr_bedrooms = st.slider("Number of Bedrooms", value=3, min_value=1, max_value=10)
+    surface_land_sqm = st.slider(
+        "Total land area in m²", value=150, min_value=10, max_value=1000
+    )
     nbr_frontages = st.slider("Number of Frontages", value=1, min_value=0, max_value=5)
 
-with col2:
-    surface_land_sqm = st.slider("Land Area in sqm", value=150, min_value=10, max_value=1000)
-    
-    fl_double_glazing = st.checkbox("Double Glazing")  
-    fl_open_fire = st.checkbox("Open Fire")  
+    fl_double_glazing = st.checkbox("Double Glazing")
+    fl_open_fire = st.checkbox("Open Fire")
     fl_swimming_pool = st.checkbox("Swimming Pool")
-    equipped_kitchen = st.checkbox("Equipped Kitchen")
-    state_building = st.checkbox("Building State")
     fl_terrace = st.checkbox("Terrace", value=True)
     if fl_terrace:
-        terrace_sqm = st.slider("Terrace Area in sqm", value=20, min_value=10, max_value=100)
-    else :
+        terrace_sqm = st.slider(
+            "Terrace Area in m²", value=20, min_value=10, max_value=100
+        )
+    else:
         terrace_sqm = 0
     fl_garden = st.checkbox("Garden", value=True)
     if fl_garden:
-        garden_sqm = st.slider("Garden Area in sqm", value=80, min_value=10, max_value=1000)
+        garden_sqm = st.slider(
+            "Garden Area in m²", value=80, min_value=10, max_value=1000
+        )
     else:
         garden_sqm = 0
-
  
     
 
@@ -80,7 +174,7 @@ payload = {
         },
         "cat_features": {
             "property_type": property_type,
-            "subproperty_type": subproperty_type,
+            "subproperty_type": subproperty_type_value,
             "locality": locality,
             "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
             "state_building_clusterized": "Yes" if state_building else "No",
@@ -115,7 +209,7 @@ with col3:
     see_map = st.button("See on Map")
 
 if see_map:
-    folium_static(maps(zip_code,total_area_sqm,subproperty_type))
+    folium_static(maps(zip_code,total_area_sqm,subproperty_type_value))
     #st.map(maps(zip_code))  
     st.markdown("""
     <div style="text-align: center;">
