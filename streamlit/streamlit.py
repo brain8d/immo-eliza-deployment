@@ -21,7 +21,7 @@ col1,spacer, col2 = st.columns([1,0.4,1])
 
 with col1:
 
-    property_type = st.selectbox("Subproperty Type", ("APARTMENT","HOUSE"))
+    property_type = st.selectbox("Property Type", ("HOUSE","APARTMENT"))
     subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT","HOUSE"))
     locality = st.selectbox("Locality", ("Aalst","Antwerp","Arlon","Ath","Bastogne","Brugge","Brussels","Charleroi","Dendermonde","Diksmuide","Dinant","Eeklo","Gent","Halle-Vilvoorde","Hasselt","Huy","Ieper","Kortrijk","Leuven","Liège","Maaseik","Marche-en-Famenne","Mechelen","Mons","Mouscron","Namur","Neufchâteau","Nivelles","Oostend","Oudenaarde","Philippeville","Roeselare","Sint-Niklaas","Soignies","Thuin","Tielt","Tongeren","Tournai","Turnhout","Verviers","Veurne","Virton","Waremme"))
     if locality:
@@ -83,15 +83,16 @@ payload = {
             "fl_double_glazing": int(fl_double_glazing)
         },
         "cat_features": {
-            "property_type": property_type,
-            "subproperty_type": subproperty_type,
+            "property_type": "HOUSE",
+            "subproperty_type": "HOUSE",
             "locality": locality,
             "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
             "state_building_clusterized": "Yes" if state_building else "No",
             "epc": epc
         }
     }
-
+    
+print(payload)
 
 col1, col2, col3, col4 = st.columns([1,2,1,1])
 with col2:
