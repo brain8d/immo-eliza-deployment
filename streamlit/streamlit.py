@@ -113,7 +113,7 @@ with col1:
     )
     epc = st.selectbox(
         "Energy Performance Certificate",
-        ("Missing", "A++", "A+", "A", "B", "C", "D", "E", "F"),
+        ("MISSING", "A++", "A+", "A", "B", "C", "D", "E", "F","G"),
     )
     equipped_kitchen = st.checkbox(
         "Is your kitchen equipped?",
