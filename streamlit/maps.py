@@ -24,19 +24,21 @@ def maps(zipcode,size_sqm,type):
         if row['property_type'] == type:
             if row['zip_code'] == zipcode:
                 if(size_sqm-10) <= row["total_area_sqm"] <=(size_sqm+10):
+
+
                     
                     if pd.notna(row['latitude']) and pd.notna(row['longitude']):
                         color = 'black'
                         icon = 'house'
                         count += 1
                         if row['price'] <= 800000:
-                            color = 'red'
-                        if row['price'] <= 600000:
-                            color = 'orange'
-                        if row['price'] <= 400000:
-                            color = 'green'
-                        if row['price'] <= 200000:
                             color = 'blue'
+                        if row['price'] <= 600000:
+                            color = 'green'
+                        if row['price'] <= 400000:
+                            color = 'orange'
+                        if row['price'] <= 200000:
+                            color = 'red'
                         if row['property_type'] == 'APARTMENT':
                             icon = 'building'
 
@@ -117,6 +119,6 @@ def maps(zipcode,size_sqm,type):
 
     map.location = last_location_add
     map.get_root().html.add_child(folium.Element(legenda_html))
-    #map.show_in_browser()
+    map.show_in_browser()
     return map
 
