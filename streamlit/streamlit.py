@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 import pandas as pd
 from maps import maps
-#from streamlit_folium import folium_static
+from streamlit_folium import folium_static
 
 # Secret key for API adress
 url = st.secrets["api_url"]
@@ -57,22 +57,22 @@ with col2:
     
 
 # Input manualy this
-latitude = 0
-longitude = 0
-primary_energy_consumption_sqm = 0
-cadastral_income = 0
+# latitude = 0
+# longitude = 0
+# primary_energy_consumption_sqm = 0
+# cadastral_income = 0
 payload = {
         "num_features": {
             "construction_year": construction_year,
-            "latitude": latitude,
-            "longitude": longitude,
+            # "latitude": latitude,
+            # "longitude": longitude,
             "total_area_sqm": total_area_sqm,
             "surface_land_sqm": surface_land_sqm,
             "nbr_frontages": nbr_frontages,
             "nbr_bedrooms": nbr_bedrooms,
             "terrace_sqm": terrace_sqm,
-            "primary_energy_consumption_sqm": primary_energy_consumption_sqm,
-            "cadastral_income": cadastral_income,
+            # "primary_energy_consumption_sqm": primary_energy_consumption_sqm,
+            # "cadastral_income": cadastral_income,
             "garden_sqm": garden_sqm,
             "zip_code": zip_code
         },
@@ -86,8 +86,8 @@ payload = {
         "cat_features": {
             "subproperty_type": subproperty_type,
             "locality": locality,
-            "equipped_kitchen": equipped_kitchen,
-            "state_building": state_building,
+            "kitchen_clusterized": "Yes",
+            "state_building_clusterized": "Yes",
             "epc": epc
         }
     }
