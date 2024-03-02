@@ -96,9 +96,9 @@ async def predict(features: Features):
     predicted_value = predictions.tolist()[0]
 
     # Use model's performance to set range of predicted price
-    MAE = 80000
-    lower_bound = predicted_value - MAE
-    upper_bound = predicted_value + MAE
+    MAE = 0.182
+    lower_bound = predicted_value * (1- MAE) 
+    upper_bound = predicted_value * (1+ MAE)
 
     return {
         "Prediction of price": f"€ {predicted_value:.0f}",
