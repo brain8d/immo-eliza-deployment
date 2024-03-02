@@ -10,7 +10,7 @@ def predict(input_dataset, output_dataset):
 
     
     # Load the model artifacts using joblib
-    artifacts = joblib.load("model/Gradient_boost_artifacts.joblib")
+    artifacts = joblib.load("api/model/Gradient_boost_artifacts.joblib")
 
 
     # Unpack the artifacts
@@ -53,5 +53,4 @@ def predict(input_dataset, output_dataset):
     print(f"test_set MAE: {mae_test}")
 
 
-
-
+predict("data/misty.csv", "data/preds.csc")
