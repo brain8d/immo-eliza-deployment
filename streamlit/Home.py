@@ -40,13 +40,26 @@ st.markdown(horizontal_bar, True)
 st.subheader("Our project")
 st.markdown(
     """
-    Properties price is determined by numerous factors such as locality, living area, 
-    number of bedrooms and many others.
+    Property prices serve as a significant economic indicator. They play a crucial role for stakeholders such as governments, real estate agents, investors, developers. Equally important we want to focus on private buyers and sellers,  aiding them in making informed decisions.
 
-    The Properties Price Prediction API aims to help property sellers and buyers 
-    find out a fair price estimation.
+    Being able to to determine fair property selling price is thus a crucial element of the real estate market.
+    Our app is designed to help sellers  to evaluate their property price:
+    - independently from any intermediaries
+    - in a precise and reliable manner
+    - instantly
+    - on a user-friendly  interface
 
-    API has been trained on www.immoweb.be data. 
+    Our objective is to provide a reliable price estimation: 
+    - based on most impactful property features of the real estate market
+    - identified through strong data collection and analysis
+    - generated through a machine learning model
+
+    Further evolution will integrate statistical information on the real estate market to make it more useful for a wider audience. 
+
+    Follow us to stay informed : "https://github.com/brain8d/immo-eliza-deployment"
+
+    By Mermade, with love - Enjoy !
+s
 """
 )
 
