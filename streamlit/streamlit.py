@@ -1,54 +1,175 @@
 import requests
 import streamlit as st
+import pandas as pd
+from pages.maps.maps import maps, maps_neighboorhood
+from streamlit_folium import folium_static
 
-# The URL of your FastAPI endpoint
-url = "https://immo-eliza-deployment-20bn.onrender.com/predict"
+# Secret key for API adress
+url = st.secrets["api_url"]
 
 # Streamlit app title
-st.title("Real Estate Price Prediction")
 
-# Input fields for the numeric features
-construction_year = st.number_input("Construction Year", value=2000, min_value=1900, max_value=2024)
-latitude = st.number_input("Latitude", value=50.8503)
-longitude = st.number_input("Longitude", value=4.3517)
-total_area_sqm = st.number_input("Total Area in sqm", value=100.0)
-surface_land_sqm = st.number_input("Land Area in sqm", value=500.0)
-nbr_frontages = st.number_input("Number of Frontages", value=0, min_value=0)
-nbr_bedrooms = st.number_input("Number of Bedrooms", value=3.0, min_value=0.0)
-terrace_sqm = st.number_input("Terrace Area in sqm", value=10.0)
-primary_energy_consumption_sqm = st.number_input("Primary Energy Consumption in kWh/sqm", value=250.0)
-cadastral_income = st.number_input("Cadastral Income", value=1000.0)
-garden_sqm = st.number_input("Garden Area in sqm", value=50.0)
-zip_code = st.number_input("ZIP Code", value=1000, format="%d")
+st.markdown("<h1 style='text-align: center;'>Real Estate Price Prediction</h1><br>", unsafe_allow_html=True)
 
-# Input fields for the flag features
-fl_terrace = st.checkbox("Terrace")
-fl_open_fire = st.checkbox("Open Fire")
-fl_swimming_pool = st.checkbox("Swimming Pool")
-fl_garden = st.checkbox("Garden")
-fl_double_glazing = st.checkbox("Double Glazing", value=True)
 
-# Dropdown for categorical features
-subproperty_type = st.selectbox("Subproperty Type", ("APARTMENT", "HOUSE"))
-locality = st.text_input("Locality", "Brussels")
-equipped_kitchen = st.selectbox("Equipped Kitchen", ("NOT_INSTALLED", "SEMI_EQUIPPED", "INSTALLED"))
-state_building = st.selectbox("Building State", ("TO_RENOVATE", "TO_REBUILD"))
-epc = st.selectbox("Energy Performance Certificate", ("MISSING", "A"))
+dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
-# Button to send the request
-if st.button("Predict Price"):
-    payload = {
+
+#sylvan Order:
+
+col1,spacer, col2 = st.columns([1,0.25,1])
+
+with col1:
+    subproperty_type_dict = {
+        "APARTMENT": "Apartment",
+        "HOUSE": "House",
+        "APARTMENT_BLOCK": "Apartment Block",
+        "BUNGALOW": "Bungalow",
+        "CASTLE": "Castle",
+        "CHALET": "Chalet",
+        "COUNTRY_COTTAGE": "Country Cottage",
+        "EXEPTIONAL_PROPERTY": "Exceptional Property",
+        "DUPLEX": "Duplex",
+        "FARMHOUSE": "Farmhouse",
+        "FLAT_STUDIO": "Flat Studio",
+        "GROUND_FLOOR": "Ground Floor",
+        "LOFT": "Loft",
+        "KOT": "Kot",
+        "MANOR_HOUSE": "Manor House",
+        "MANSION": "Mansion",
+        "MIXED_USE_BUILDING": "Mixed Use Building",
+        "PENTHOUSE": "Penthouse",
+        "SERVICE_FLAT": "Service Flat",
+        "TOWN_HOUSE": "Town House",
+        "TRIPLEX": "Triplex",
+        "VILLA": "Villa",
+        "OTHER_PROPERTY": "Other Property",
+    }
+
+    switched_dict = {value: key for key, value in subproperty_type_dict.items()}
+
+    
+
+    subproperty_type_key = st.selectbox("Property Type", list(switched_dict.keys()))
+    subproperty_type_value = switched_dict[subproperty_type_key]
+
+    if subproperty_type_value in ("APARTMENT", "DUPLEX", "FLAT_STUDIO", "GROUND_FLOOR", "KOT", "LOFT", "PENTHOUSE", "SERVICE_FLAT", "TRIPLEX"):        
+        property_type = "APARTMENT"
+    else:
+        property_type = "HOUSE"
+
+    locality = st.selectbox(
+        "Locality",
+        (
+            "Aalst",
+            "Antwerp",
+            "Arlon",
+            "Ath",
+            "Bastogne",
+            "Brugge",
+            "Brussels",
+            "Charleroi",
+            "Dendermonde",
+            "Diksmuide",
+            "Dinant",
+            "Eeklo",
+            "Gent",
+            "Halle-Vilvoorde",
+            "Hasselt",
+            "Huy",
+            "Ieper",
+            "Kortrijk",
+            "Leuven",
+            "Liège",
+            "Maaseik",
+            "Marche-en-Famenne",
+            "Mechelen",
+            "Mons",
+            "Mouscron",
+            "Namur",
+            "Neufchâteau",
+            "Nivelles",
+            "Oostend",
+            "Oudenaarde",
+            "Philippeville",
+            "Roeselare",
+            "Sint-Niklaas",
+            "Soignies",
+            "Thuin",
+            "Tielt",
+            "Tongeren",
+            "Tournai",
+            "Turnhout",
+            "Verviers",
+            "Veurne",
+            "Virton",
+            "Waremme",
+        ),
+    )
+    if locality:
+        data = dataLocality[dataLocality["locality"] == f"{locality}"]
+        zip_code = st.selectbox("ZIP Code", data["zip_code"].to_list()) 
+    construction_year = st.number_input(
+            "Construction Year", value=2000, min_value=1800, max_value=2024
+        )
+    total_area_sqm = st.number_input(
+        "Total Living Area in m²", value=150, min_value=10, max_value=1000
+    )
+    epc = st.selectbox(
+        "Energy Performance Certificate",
+        ("A++", "A+", "A", "B", "C", "D", "E", "F","G","Unknown"),
+    )
+    if epc == "Unknown":
+        epc = "MISSING"
+        
+    equipped_kitchen = st.checkbox(
+        "Is your kitchen equipped?",
+    )
+    state_building = st.checkbox(
+        "Property renovated in the last 2 years?",
+    )
+    
+with col2:
+    nbr_bedrooms = st.slider("Number of Bedrooms", value=3, min_value=1, max_value=10)
+    surface_land_sqm = st.slider(
+        "Total land area in m²", value=150, min_value=10, max_value=1000
+    )
+    nbr_frontages = st.slider("Number of Frontages", value=1, min_value=0, max_value=5)
+
+    fl_terrace = st.checkbox("Terrace", value=True)
+    if fl_terrace:
+        terrace_sqm = st.slider(
+            "Terrace Area in m²", value=20, min_value=10, max_value=100
+        )
+    else:
+        terrace_sqm = 0
+    fl_garden = st.checkbox("Garden", value=True)
+    if fl_garden:
+        garden_sqm = st.slider(
+            "Garden Area in m²", value=80, min_value=10, max_value=1000
+        )
+    else:
+        garden_sqm = 0
+    fl_swimming_pool = st.checkbox("Swimming Pool")
+    fl_double_glazing = st.checkbox("Double Glazing")
+    fl_open_fire = st.checkbox("Open Fire")
+    
+
+    
+
+# Input manualy this
+#latitude = 0
+#longitude = 0
+#primary_energy_consumption_sqm = 0
+#cadastral_income = 0
+payload = {
         "num_features": {
             "construction_year": construction_year,
-            "latitude": latitude,
-            "longitude": longitude,
             "total_area_sqm": total_area_sqm,
             "surface_land_sqm": surface_land_sqm,
             "nbr_frontages": nbr_frontages,
             "nbr_bedrooms": nbr_bedrooms,
             "terrace_sqm": terrace_sqm,
-            "primary_energy_consumption_sqm": primary_energy_consumption_sqm,
-            "cadastral_income": cadastral_income,
             "garden_sqm": garden_sqm,
             "zip_code": zip_code
         },
@@ -60,21 +181,106 @@ if st.button("Predict Price"):
             "fl_double_glazing": int(fl_double_glazing)
         },
         "cat_features": {
-            "subproperty_type": subproperty_type,
+            "property_type": property_type,
+            "subproperty_type": subproperty_type_value,
             "locality": locality,
-            "equipped_kitchen": equipped_kitchen,
-            "state_building": state_building,
+            "kitchen_clusterized": "Yes" if equipped_kitchen else "No",
+            "state_building_clusterized": "Yes" if state_building else "No",
             "epc": epc
         }
     }
 
-    print(payload)
-    response = requests.post(url, json=payload)
-    if response.status_code == 200:
-        # Display the prediction result
-        prediction = response.text
-        st.success(f"Predicted Price: {prediction}")
-    else:
-        # Handle errors
-        st.error(f"Failed to get response: {response.status_code}")
-        print(response.text)
+print(payload)
+prediction = 0
+
+col1, col2, col3, col4 = st.columns([0.5,2,2,2])
+with col2:
+
+    # Button to send the request
+    if st.button("Predict Price"):
+        try:
+            response = requests.post(url, json=payload)
+            if response.status_code == 200:
+                # Display the prediction result
+                prediction = response.json()
+                print(prediction["Prediction of price"])
+                    
+            else:
+                # Handle errors
+                st.error(f"Failed to get response: {response.status_code}")
+                print(response.text)
+        except Exception as e:
+
+            st.error(f"An error occurred: {str(e)}")            
+
+with col3:
+    see_map = st.button("Discover Matching Homes")
+with col4:
+    see_map_neighboorhood = st.button("View Neighborhood Map")
+
+col1, col2, col3 = st.columns([1,2,1])
+
+if prediction:
+    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkgreen; color:white; padding:10px; border-radius:10px;">Your property price : {prediction["Prediction of price"]}</div>', unsafe_allow_html=True) 
+    st.markdown("")
+    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkorange; color:white; padding:10px; border-radius:10px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</div>', unsafe_allow_html=True) 
+
+error = False
+if see_map:
+    col1, col2 = st.columns([4,1])
+    with col1:
+        try:
+            error = False
+            folium_static(maps(zip_code,total_area_sqm,property_type), width=720, height=430)  
+        except Exception as e:
+            error = True
+            st.error(f"Sorry, no matching houses in the selected neighborhod.")  
+
+    with col2:
+        if error == False:
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.image("streamlit\imgs\legend.png")  
+
+if see_map_neighboorhood:
+    col1, col2 = st.columns([4,1])
+    with col1:
+        try:
+            error = False
+            folium_static(maps_neighboorhood(zip_code), width=720, height=430)  
+        except Exception as e:
+            error = True
+            st.error(f"Sorry, no matching houses in the selected neighborhod.")  
+
+    with col2:
+        if error == False:
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.image("streamlit\imgs\legend.png")           
+        
