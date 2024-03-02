@@ -203,7 +203,7 @@ with col2:
             if response.status_code == 200:
                 # Display the prediction result
                 prediction = response.json()
-
+                print(prediction["Prediction of price"])
                     
             else:
                 # Handle errors
@@ -221,10 +221,9 @@ with col4:
 col1, col2, col3 = st.columns([1,2,1])
 
 if prediction:
-    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkgreen; padding:10px; border-radius:10px;">Your property price : {prediction["Prediction of price"]}</div>', unsafe_allow_html=True) 
+    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkgreen; color:white; padding:10px; border-radius:10px;">Your property price : {prediction["Prediction of price"]}</div>', unsafe_allow_html=True) 
     st.markdown("")
-    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkorange; padding:10px; border-radius:10px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</div>', unsafe_allow_html=True) 
-
+    st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkorange; color:white; padding:10px; border-radius:10px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</div>', unsafe_allow_html=True) 
 
 error = False
 if see_map:
