@@ -46,6 +46,9 @@ st.markdown(
     The Properties Price Prediction API aims to help property sellers and buyers 
     find out a fair price estimation.
 
-    API has been trained on immoweb.be data. 
+    API has been trained on www.immoweb.be data. 
 """
 )
+
+st.text("Get help: https://github.com/brain8d/immo-eliza-deployment")
+st.text("Report a bug https://github.com/brain8d/immo-eliza-deployment")
