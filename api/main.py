@@ -96,11 +96,17 @@ async def predict(features: Features):
     predicted_value = predictions.tolist()[0]
 
     # Use model's performance to set range of predicted price
-    MAE = 0.182
+    MAE = 0.186
     lower_bound = predicted_value * (1- MAE) 
     upper_bound = predicted_value * (1+ MAE)
 
+    def format_currency(value):
+        # Format the value with comma as the thousand separator
+        formatted = "{:,d}".format(int(value)).replace(",", " ")
+        return formatted
+
     return {
-        "Prediction of price": f"€ {predicted_value:.0f}",
-        "Price range based on model accuracy": f"€ {lower_bound:.0f} - € {upper_bound:.0f}"
+        "price": f"€ {format_currency(predicted_value)}",
+        "price_range": f"€ {format_currency(lower_bound)} - € {format_currency(upper_bound)}"
     }
+
