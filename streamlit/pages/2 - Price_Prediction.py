@@ -266,7 +266,7 @@ if see_map:
             st.markdown("")
             st.markdown("")
             st.markdown("")
-            st.image("streamlit\imgs\legend.png")  
+            st.image("streamlit/imgs/legend.png")  
 
 if see_map_neighboorhood:
     col1, col2 = st.columns([4,1])
@@ -295,5 +295,5 @@ if see_map_neighboorhood:
             st.markdown("")
             st.markdown("")
             st.markdown("")
-            st.image("streamlit\imgs\legend.png")           
+            st.image("streamlit/imgs/legend.png")           
         
