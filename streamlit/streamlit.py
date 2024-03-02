@@ -226,58 +226,62 @@ if prediction:
     st.markdown(f'<div style="text-align:center; font-size:24px; background-color:darkorange; padding:10px; border-radius:10px;">Confidence Interval : {prediction["Price range based on model accuracy"]}</div>', unsafe_allow_html=True) 
 
 
-
+error = False
 if see_map:
     col1, col2 = st.columns([4,1])
     with col1:
         try:
+            error = False
             folium_static(maps(zip_code,total_area_sqm,property_type), width=720, height=430)  
         except Exception as e:
-
+            error = True
             st.error(f"Sorry, no matching houses in the selected neighborhod.")  
 
     with col2:
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.image("streamlit\imgs\legend.png")  
+        if error == False:
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.image("streamlit\imgs\legend.png")  
 
 if see_map_neighboorhood:
     col1, col2 = st.columns([4,1])
     with col1:
         try:
+            error = False
             folium_static(maps_neighboorhood(zip_code), width=720, height=430)  
         except Exception as e:
-
+            error = True
             st.error(f"Sorry, no matching houses in the selected neighborhod.")  
 
     with col2:
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.markdown("")
-        st.image("streamlit\imgs\legend.png")           
+        if error == False:
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.markdown("")
+            st.image("streamlit\imgs\legend.png")           
         
