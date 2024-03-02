@@ -106,7 +106,7 @@ async def predict(features: Features):
         return formatted
 
     return {
-        "price": f"€ {format_currency(predicted_value)}",
-        "price_range": f"€ {format_currency(lower_bound)} - € {format_currency(upper_bound)}"
+        "Prediction of price": f"€ {format_currency(predicted_value)}",
+        "Price range based on model accuracy": f"€ {format_currency(lower_bound)} - € {format_currency(upper_bound)}"
     }
 
