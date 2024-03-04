@@ -19,13 +19,13 @@ st.markdown("""
         **Julio Barizon**:
             https://github.com/DDDines
         
-        **Omar**:
+        **Omar Hamdy**:
             https://github.com/theomarcode
         
         **Polina Yarova**:
             https://github.com/polinaya777
         
-        **Sylvain**:
+        **Sylvain Legay**:
             https://github.com/slvg01
                         
 """)
