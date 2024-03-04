@@ -29,7 +29,7 @@ st.markdown(
 
     Further evolution will integrate statistical information on the real estate market to make it more useful for a wider audience. 
 
-    Follow us to stay informed : "https://github.com/brain8d/immo-eliza-deployment"
+    Follow us to stay informed : https://github.com/brain8d/immo-eliza-deployment
 
     By MerMade, with love - Enjoy !
 
