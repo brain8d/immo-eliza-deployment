@@ -5,7 +5,8 @@ horizontal_bar = "<hr style='margin-top: 0; margin-bottom: 0; height: 1px; \
 
 # Define the content of the Home page
 # Display a logo and a title
-st.image("streamlit/imgs/logo.png", width=100)
+st.image("streamlit/imgs/header.png")
+st.sidebar.image("streamlit/imgs/logo.png", use_column_width=True)
 st.title("Real Estate Price Prediction API")
 st.text("by MerMade")
 st.markdown(horizontal_bar, True)
