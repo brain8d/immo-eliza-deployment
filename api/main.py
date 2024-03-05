@@ -1,10 +1,11 @@
+from typing import Dict
+
 import joblib
 import numpy as np
 import pandas as pd
 import sklearn
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
-from typing import Dict
 
 app = FastAPI()
 
@@ -17,23 +18,23 @@ DEFAULTS = {
         "nbr_bedrooms": 2.79,
         "terrace_sqm": 11.58,
         "garden_sqm": 115.64,
-        "zip_code": 1000
+        "zip_code": 1000,
     },
     "fl_features": {
         "fl_terrace": 0,
         "fl_open_fire": 0,
         "fl_swimming_pool": 0,
         "fl_garden": 0,
-        "fl_double_glazing": 1
+        "fl_double_glazing": 1,
     },
     "cat_features": {
         "property_type": "APARTMENT",
         "subproperty_type": "APARTMENT",
         "locality": "MISSING",
-        "kitchen_clusterized" : "MISSING" ,
-        "state_building_clusterized" : "MISSING",
-        "epc": "MISSING"
-    }
+        "kitchen_clusterized": "MISSING",
+        "state_building_clusterized": "MISSING",
+        "epc": "MISSING",
+    },
 }
 
 # Load model and artifacts once during startup
@@ -42,28 +43,31 @@ imputer = artifacts["imputer"]
 enc = artifacts["enc"]
 model = artifacts["model"]
 
+
 # Features class
 class Features(BaseModel):
     num_features: Dict[str, float] = Field(
         default=DEFAULTS["num_features"],
         example={"zip_code": 1000},
-        description="Numerical features with their default values."
+        description="Numerical features with their default values.",
     )
     fl_features: Dict[str, int] = Field(
         default=DEFAULTS["fl_features"],
         example={"fl_garden": 1},
-        description="Flag features with their default values."
+        description="Flag features with their default values.",
     )
     cat_features: Dict[str, str] = Field(
         default=DEFAULTS["cat_features"],
         example={"epc": "A"},
-        description="Categorical features with their default values."
+        description="Categorical features with their default values.",
     )
+
 
 # Check function
 @app.get("/")
 async def read_root():
     return {"message": "Immo Eliza ML model API is alive!"}
+
 
 # Predict function
 @app.post("/predict")
@@ -74,7 +78,7 @@ async def predict(features: Features):
         "fl_features": {**DEFAULTS["fl_features"], **features.fl_features},
         "cat_features": {**DEFAULTS["cat_features"], **features.cat_features},
     }
-    
+
     # Now proceed with constructing DataFrame from filled_features
     num_df = pd.DataFrame([filled_features["num_features"]])
     fl_df = pd.DataFrame([filled_features["fl_features"]])
@@ -97,8 +101,8 @@ async def predict(features: Features):
 
     # Use model's performance to set range of predicted price
     MAE = 0.186
-    lower_bound = predicted_value * (1- MAE) 
-    upper_bound = predicted_value * (1+ MAE)
+    lower_bound = predicted_value * (1 - MAE)
+    upper_bound = predicted_value * (1 + MAE)
 
     def format_currency(value):
         # Format the value with comma as the thousand separator
@@ -107,6 +111,5 @@ async def predict(features: Features):
 
     return {
         "Prediction of price": f"€ {format_currency(predicted_value)}",
-        "Price range based on model accuracy": f"€ {format_currency(lower_bound)} - € {format_currency(upper_bound)}"
+        "Price range based on model accuracy": f"€ {format_currency(lower_bound)} - € {format_currency(upper_bound)}",
     }
-

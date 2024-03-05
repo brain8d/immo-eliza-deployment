@@ -8,10 +8,8 @@ def predict(input_dataset, output_dataset):
     # Load the data
     data = pd.read_csv(input_dataset)
 
-    
     # Load the model artifacts using joblib
     artifacts = joblib.load("api/model/Gradient_boost_artifacts.joblib")
-
 
     # Unpack the artifacts
     num_features = artifacts["features"]["num_features"]
@@ -21,15 +19,12 @@ def predict(input_dataset, output_dataset):
     enc = artifacts["enc"]
     model = artifacts["model"]
 
-
     # Extract the used data
     data_extr = data[num_features + fl_features + cat_features]
-
 
     # Apply imputer and encoder on data
     data_extr[num_features] = imputer.transform(data_extr[num_features])
     data_cat = enc.transform(data_extr[cat_features]).toarray()
-    
 
     # Combine the numerical and one-hot encoded categorical columns
     data_processed = pd.concat(
@@ -40,10 +35,9 @@ def predict(input_dataset, output_dataset):
         axis=1,
     )
 
-
     # Make predictions
     predictions = model.predict(data_processed)
-    #predictions = predictions[:10]  # just picking 10 to display sample output :-)  
+    # predictions = predictions[:10]  # just picking 10 to display sample output :-)
 
     ### -------- DO NOT TOUCH THE FOLLOWING LINES -------- ###
     # Save the predictions to a CSV file (in order of data input!)

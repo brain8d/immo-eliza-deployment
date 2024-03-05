@@ -1,33 +1,30 @@
 import joblib
 import pandas as pd
-from sklearn.impute import SimpleImputer
 from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.metrics import r2_score
-from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-
 
 
 def train():
     # Load the data
     data = pd.read_csv("data/properties.csv")
-    
+
     # Define features to use
     num_features = [
         "construction_year",
-        #"latitude",
-        #"longitude",
+        # "latitude",
+        # "longitude",
         "total_area_sqm",
         "surface_land_sqm",
         "nbr_frontages",
         "nbr_bedrooms",
         "terrace_sqm",
-        #"primary_energy_consumption_sqm",
-        #"cadastral_income",
+        # "primary_energy_consumption_sqm",
+        # "cadastral_income",
         "garden_sqm",
-        "zip_code"
+        "zip_code",
     ]
 
     fl_features = [
@@ -36,21 +33,20 @@ def train():
         "fl_swimming_pool",
         "fl_garden",
         "fl_double_glazing",
-        #"fl_floodzone", 
-        #"fl_furnished"
+        # "fl_floodzone",
+        # "fl_furnished"
     ]
 
     cat_features = [
         "property_type",
         "subproperty_type",
         "locality",
-        #"equipped_kitchen",
+        # "equipped_kitchen",
         "kitchen_clusterized",
-        #"state_building",
+        # "state_building",
         "state_building_clusterized",
         "epc",
-        #"zip_code_text"
-        
+        # "zip_code_text"
     ]
 
     # Split the data into features and target
@@ -68,7 +64,6 @@ def train():
     X_train[num_features] = imputer.transform(X_train[num_features])
     X_test[num_features] = imputer.transform(X_test[num_features])
 
- 
     # Convert categorical columns with one-hot encoding using OneHotEncoder
     enc = OneHotEncoder()
     enc.fit(X_train[cat_features])
@@ -94,7 +89,7 @@ def train():
 
     # Instantiate the Gradient Boosting Regressor
     model = GradientBoostingRegressor(n_estimators=275, max_depth=10, random_state=555)
-    
+
     # Train the model
     model.fit(X_train, y_train)
 
@@ -106,8 +101,6 @@ def train():
     print(f"Train set R² score: {r2_train}")
     print(f"Train set MAE: {mae_test}")
 
-    
-
     # Make predictions on the test set
     y_pred_test = model.predict(X_test)
     r2_test = r2_score(y_test, y_pred_test)
@@ -115,7 +108,6 @@ def train():
     mse_test = mean_squared_error(y_test, y_pred_test)
     print(f"Test set R² score: {r2_test}")
     print(f"Test set MAE: {mae_test}")
-    
 
     # Save the model
     artifacts = {
@@ -129,8 +121,6 @@ def train():
         "model": model,
     }
     joblib.dump(artifacts, "api/model/Gradient_boost_artifacts.joblib")
-
-    
 
 
 if __name__ == "__main__":

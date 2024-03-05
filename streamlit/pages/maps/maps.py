@@ -1,11 +1,10 @@
 import folium
 import pandas as pd
 
-data = pd.read_csv('data/properties.csv')
+data = pd.read_csv("data/properties.csv")
 
 
-
-def maps(zipcode,size_sqm,type):
+def maps(zipcode, size_sqm, type):
 
     map = folium.Map(location=[50.850346, 4.351721], zoom_start=12)
 
@@ -21,58 +20,60 @@ def maps(zipcode,size_sqm,type):
 
     for index, row in data.iterrows():
 
-        if row['property_type'] == type:
-            if row['zip_code'] == zipcode:
-                if(size_sqm-10) <= row["total_area_sqm"] <=(size_sqm+10):
+        if row["property_type"] == type:
+            if row["zip_code"] == zipcode:
+                if (size_sqm - 10) <= row["total_area_sqm"] <= (size_sqm + 10):
 
-
-                    
-                    if pd.notna(row['latitude']) and pd.notna(row['longitude']):
-                        color = 'black'
-                        icon = 'house'
+                    if pd.notna(row["latitude"]) and pd.notna(row["longitude"]):
+                        color = "black"
+                        icon = "house"
                         count += 1
-                        if row['price'] <= 800000:
-                            color = 'blue'
-                        if row['price'] <= 600000:
-                            color = 'green'
-                        if row['price'] <= 400000:
-                            color = 'orange'
-                        if row['price'] <= 200000:
-                            color = 'red'
-                        if row['property_type'] == 'APARTMENT':
-                            icon = 'building'
+                        if row["price"] <= 800000:
+                            color = "blue"
+                        if row["price"] <= 600000:
+                            color = "green"
+                        if row["price"] <= 400000:
+                            color = "orange"
+                        if row["price"] <= 200000:
+                            color = "red"
+                        if row["property_type"] == "APARTMENT":
+                            icon = "building"
 
-                        #if(size_sqm-10) <= row["total_area_sqm"] <=(size_sqm+10):
+                        # if(size_sqm-10) <= row["total_area_sqm"] <=(size_sqm+10):
                         #    icon = "star"
-                        
-                        coords = [row['latitude'], row['longitude']]
-                        folium.Marker(coords, tooltip="Click for More", popup=(f"\nID:{row['id']}"
-                                                                            f"\nPrice:{row['price']}"
-                                                                            f"\nEnergy:{row['epc']}"
-                                                                            f"\nPostal:{row['zip_code']}"
-                                                                            f"\nBedrooms:{row['nbr_bedrooms']}"
-                                                                            f"\nSurface:{row['total_area_sqm']}"),
-                                    icon=folium.Icon(icon=icon, prefix='fa', color=color)).add_to(map)
-                        if icon == 'building':
+
+                        coords = [row["latitude"], row["longitude"]]
+                        folium.Marker(
+                            coords,
+                            tooltip="Click for More",
+                            popup=(
+                                f"\nID:{row['id']}"
+                                f"\nPrice:{row['price']}"
+                                f"\nEnergy:{row['epc']}"
+                                f"\nPostal:{row['zip_code']}"
+                                f"\nBedrooms:{row['nbr_bedrooms']}"
+                                f"\nSurface:{row['total_area_sqm']}"
+                            ),
+                            icon=folium.Icon(icon=icon, prefix="fa", color=color),
+                        ).add_to(map)
+                        if icon == "building":
                             count_apartment += 1
-                        if icon == 'house':
+                        if icon == "house":
                             count_house += 1
-                        if color == 'blue':
+                        if color == "blue":
                             count_blue += 1
-                        if color == 'green':
+                        if color == "green":
                             count_green += 1
-                        if color == 'orange':
+                        if color == "orange":
                             count_orange += 1
-                        if color == 'red':
+                        if color == "red":
                             count_red += 1
-                        if color == 'black':
+                        if color == "black":
                             count_black += 1
 
-                        last_location_add = row['latitude'], row['longitude']
+                        last_location_add = row["latitude"], row["longitude"]
 
-
-
-    legenda_html = '''
+    legenda_html = """
      <div style="position: fixed; 
      bottom: 50px; left: 50px; width: 160px; height: 220px; 
      border:2px solid grey; z-index:9999; font-size:14px; background-color: white;
@@ -86,8 +87,7 @@ def maps(zipcode,size_sqm,type):
       &nbsp; <i class="fa fa-map-marker" style="color:red"></i> > 600k and <= 800k &nbsp; <br>
       &nbsp; <i class="fa fa-map-marker" style="color:black"></i> > 800k &nbsp; 
      </div>
-     '''
-
+     """
 
     print(f"Total of Houses and Apartments: {count}")
     print(f"Total of Houses: {count_house}")
@@ -97,29 +97,32 @@ def maps(zipcode,size_sqm,type):
 
     print(f"Total of Houses and Apartments Price less than 200k: {count_blue}")
     print(
-        f"% of Houses and Apartments Price less than 200k: {count_blue/count*100:.2f}%")
+        f"% of Houses and Apartments Price less than 200k: {count_blue/count*100:.2f}%"
+    )
 
     print(f"% of Houses and Apartments Price between 200k to 400k: {count_green}")
     print(
-        f"Total of Houses and Apartments Price between 200k to 400k: {count_green/count*100:.2f}%")
+        f"Total of Houses and Apartments Price between 200k to 400k: {count_green/count*100:.2f}%"
+    )
 
+    print(f"Total of Houses and Apartments Price between 600k to 800k: {count_orange}")
     print(
-        f"Total of Houses and Apartments Price between 600k to 800k: {count_orange}")
-    print(
-        f"% of Houses and Apartments Price between 600k to 800k: {count_orange/count*100:.2f}%")
+        f"% of Houses and Apartments Price between 600k to 800k: {count_orange/count*100:.2f}%"
+    )
 
+    print(f"Total of Houses and Apartments Price between 600k to 800k: {count_red}")
     print(
-        f"Total of Houses and Apartments Price between 600k to 800k: {count_red}")
-    print(
-        f"% of Houses and Apartments Price between 600k to 800k: {count_red/count*100:.2f}%")
+        f"% of Houses and Apartments Price between 600k to 800k: {count_red/count*100:.2f}%"
+    )
 
     print(f"Total of Houses and Apartments Price More than 800k: {count_black}")
     print(
-        f"% of Houses and Apartments Price More than 800k: {count_black/count*100:.2f}%")
+        f"% of Houses and Apartments Price More than 800k: {count_black/count*100:.2f}%"
+    )
 
     map.location = last_location_add
     map.get_root().html.add_child(folium.Element(legenda_html))
-    #map.show_in_browser()
+    # map.show_in_browser()
     return map
 
 
@@ -138,50 +141,54 @@ def maps_neighborhood(zipcode):
     count_house = 0
 
     for index, row in data.iterrows():
-        if row['zip_code'] == zipcode:             
-            if pd.notna(row['latitude']) and pd.notna(row['longitude']):
-                color = 'black'
-                icon = 'house'
+        if row["zip_code"] == zipcode:
+            if pd.notna(row["latitude"]) and pd.notna(row["longitude"]):
+                color = "black"
+                icon = "house"
                 count += 1
-                if row['price'] <= 800000:
-                    color = 'blue'
-                if row['price'] <= 600000:
-                    color = 'green'
-                if row['price'] <= 400000:
-                    color = 'orange'
-                if row['price'] <= 200000:
-                    color = 'red'
-                if row['property_type'] == 'APARTMENT':
-                    icon = 'building'
-                
-                coords = [row['latitude'], row['longitude']]
-                folium.Marker(coords, tooltip="Click for More", popup=(f"\nID:{row['id']}"
-                                                                    f"\nPrice:{row['price']}"
-                                                                    f"\nEnergy:{row['epc']}"
-                                                                    f"\nPostal:{row['zip_code']}"
-                                                                    f"\nBedrooms:{row['nbr_bedrooms']}"
-                                                                    f"\nSurface:{row['total_area_sqm']}"),
-                            icon=folium.Icon(icon=icon, prefix='fa', color=color)).add_to(map)
-                if icon == 'building':
+                if row["price"] <= 800000:
+                    color = "blue"
+                if row["price"] <= 600000:
+                    color = "green"
+                if row["price"] <= 400000:
+                    color = "orange"
+                if row["price"] <= 200000:
+                    color = "red"
+                if row["property_type"] == "APARTMENT":
+                    icon = "building"
+
+                coords = [row["latitude"], row["longitude"]]
+                folium.Marker(
+                    coords,
+                    tooltip="Click for More",
+                    popup=(
+                        f"\nID:{row['id']}"
+                        f"\nPrice:{row['price']}"
+                        f"\nEnergy:{row['epc']}"
+                        f"\nPostal:{row['zip_code']}"
+                        f"\nBedrooms:{row['nbr_bedrooms']}"
+                        f"\nSurface:{row['total_area_sqm']}"
+                    ),
+                    icon=folium.Icon(icon=icon, prefix="fa", color=color),
+                ).add_to(map)
+                if icon == "building":
                     count_apartment += 1
-                if icon == 'house':
+                if icon == "house":
                     count_house += 1
-                if color == 'blue':
+                if color == "blue":
                     count_blue += 1
-                if color == 'green':
+                if color == "green":
                     count_green += 1
-                if color == 'orange':
+                if color == "orange":
                     count_orange += 1
-                if color == 'red':
+                if color == "red":
                     count_red += 1
-                if color == 'black':
+                if color == "black":
                     count_black += 1
 
-                last_location_add = row['latitude'], row['longitude']
+                last_location_add = row["latitude"], row["longitude"]
 
-
-
-    legenda_html = '''
+    legenda_html = """
      <div style="position: fixed; 
      bottom: 50px; left: 50px; width: 160px; height: 220px; 
      border:2px solid grey; z-index:9999; font-size:14px; background-color: white;
@@ -195,8 +202,7 @@ def maps_neighborhood(zipcode):
       &nbsp; <i class="fa fa-map-marker" style="color:red"></i> > 600k and <= 800k &nbsp; <br>
       &nbsp; <i class="fa fa-map-marker" style="color:black"></i> > 800k &nbsp; 
      </div>
-     '''
-
+     """
 
     print(f"Total of Houses and Apartments: {count}")
     print(f"Total of Houses: {count_house}")
@@ -206,27 +212,30 @@ def maps_neighborhood(zipcode):
 
     print(f"Total of Houses and Apartments Price less than 200k: {count_blue}")
     print(
-        f"% of Houses and Apartments Price less than 200k: {count_blue/count*100:.2f}%")
+        f"% of Houses and Apartments Price less than 200k: {count_blue/count*100:.2f}%"
+    )
 
     print(f"% of Houses and Apartments Price between 200k to 400k: {count_green}")
     print(
-        f"Total of Houses and Apartments Price between 200k to 400k: {count_green/count*100:.2f}%")
+        f"Total of Houses and Apartments Price between 200k to 400k: {count_green/count*100:.2f}%"
+    )
 
+    print(f"Total of Houses and Apartments Price between 600k to 800k: {count_orange}")
     print(
-        f"Total of Houses and Apartments Price between 600k to 800k: {count_orange}")
-    print(
-        f"% of Houses and Apartments Price between 600k to 800k: {count_orange/count*100:.2f}%")
+        f"% of Houses and Apartments Price between 600k to 800k: {count_orange/count*100:.2f}%"
+    )
 
+    print(f"Total of Houses and Apartments Price between 600k to 800k: {count_red}")
     print(
-        f"Total of Houses and Apartments Price between 600k to 800k: {count_red}")
-    print(
-        f"% of Houses and Apartments Price between 600k to 800k: {count_red/count*100:.2f}%")
+        f"% of Houses and Apartments Price between 600k to 800k: {count_red/count*100:.2f}%"
+    )
 
     print(f"Total of Houses and Apartments Price More than 800k: {count_black}")
     print(
-        f"% of Houses and Apartments Price More than 800k: {count_black/count*100:.2f}%")
+        f"% of Houses and Apartments Price More than 800k: {count_black/count*100:.2f}%"
+    )
 
     map.location = last_location_add
     map.get_root().html.add_child(folium.Element(legenda_html))
-    #map.show_in_browser()
+    # map.show_in_browser()
     return map
