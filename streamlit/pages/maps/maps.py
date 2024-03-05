@@ -123,7 +123,7 @@ def maps(zipcode,size_sqm,type):
     return map
 
 
-def maps_neighboorhood(zipcode):
+def maps_neighborhood(zipcode):
 
     map = folium.Map(location=[50.850346, 4.351721], zoom_start=12)
 
