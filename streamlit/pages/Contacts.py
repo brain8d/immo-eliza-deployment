@@ -1,5 +1,9 @@
 import streamlit as st
 
+# Logo
+with st.sidebar:
+  st.image("streamlit/imgs/logo.png", width=100)#
+
 # Define the content of the Contacts page
 st.image("streamlit/imgs/logo.png", width=100)
 st.title("Real Estate Price Prediction API")
@@ -30,4 +34,10 @@ st.markdown("""
                         
 """)
 
-    
+st.text("")
+st.text('')
+st.markdown(''' 
+    :question: Get help or :bug: report a bug:
+    https://github.com/brain8d/immo-eliza-deployment 
+    '''
+)

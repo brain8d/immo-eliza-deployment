@@ -1,9 +1,14 @@
+import time
 import requests
 import streamlit as st
 import pandas as pd
 from streamlit_folium import folium_static
-from pages.maps.maps import maps , maps_neighboorhood
+from pages.maps.maps import maps , maps_neighborhood
 
+
+# Logo
+with st.sidebar:
+  st.image("streamlit/imgs/logo.png", width=100)#
 
 # Streamlit app title
 st.image("streamlit/imgs/logo.png", width=100)
@@ -16,7 +21,7 @@ horizontal_bar = "<hr style='margin-top: 0; margin-bottom: 0; height: 1px; \
 st.markdown(horizontal_bar, True)
 st.subheader("How much is your home worth?")
 st.markdown("""
-    This is the price prediction page. Here you can predict prices.
+    Price prediction is based on a Machine Learning Model generated from collecting +75.000 listings in Belgium.  
 """)
 
 dataLocality = pd.read_csv("data/locality_zip_codes.csv")
@@ -206,11 +211,16 @@ payload = {
 print(payload)
 prediction = 0
 
+st.text("")
+st.text("")
+
 col1, col2, col3, col4 = st.columns([0.5,2,2,2])
 with col2:
 
     # Button to send the request
     if st.button("Predict Price"):
+        with st.spinner('Getting predictions...'):
+            time.sleep(5)
         try:
             response = requests.post(url, json=payload)
             if response.status_code == 200:
@@ -227,9 +237,9 @@ with col2:
             st.error(f"An error occurred: {str(e)}")            
 
 with col3:
-    see_map = st.button("Discover Matching Homes")
+    see_map = st.button("Discover Similar Homes")
 with col4:
-    see_map_neighboorhood = st.button("View Neighborhood Map")
+    see_map_neighborhood = st.button("View Neighborhood Map")
 
 col1, col2, col3 = st.columns([1,2,1])
 
@@ -240,6 +250,8 @@ if prediction:
 
 error = False
 if see_map:
+    with st.spinner('Searching homes...'):
+        time.sleep(5)
     col1, col2 = st.columns([4,1])
     with col1:
         try:
@@ -268,12 +280,14 @@ if see_map:
             st.markdown("")
             st.image("streamlit/imgs/legend.png")  
 
-if see_map_neighboorhood:
+if see_map_neighborhood:
+    with st.spinner('Loading neighborhood...'):
+        time.sleep(5)
     col1, col2 = st.columns([4,1])
     with col1:
         try:
             error = False
-            folium_static(maps_neighboorhood(zip_code), width=720, height=430)  
+            folium_static(maps_neighborhood(zip_code), width=720, height=430)  
         except Exception as e:
             error = True
             st.error(f"Sorry, no matching houses in the selected neighborhod.")  
