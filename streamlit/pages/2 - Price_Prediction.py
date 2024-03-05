@@ -5,6 +5,10 @@ from streamlit_folium import folium_static
 from pages.maps.maps import maps , maps_neighboorhood
 
 
+# Logo
+with st.sidebar:
+  st.image("streamlit/imgs/logo.png", width=100)#
+
 # Streamlit app title
 st.image("streamlit/imgs/logo.png", width=100)
 st.title("Real Estate Price Prediction API")
