@@ -40,7 +40,3 @@ st.markdown(
 
 '''
 )
-st.text("")
-st.text("")
-st.markdown(":question: Get help: https://github.com/brain8d/immo-eliza-deployment")
-st.markdown(":bug: Report a bug https://github.com/brain8d/immo-eliza-deployment ")

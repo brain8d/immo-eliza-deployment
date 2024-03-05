@@ -20,7 +20,7 @@ horizontal_bar = "<hr style='margin-top: 0; margin-bottom: 0; height: 1px; \
 st.markdown(horizontal_bar, True)
 st.subheader("How much is your home worth?")
 st.markdown("""
-    This is the price prediction page. Here you can predict prices.
+    Price prediction is based on a Machine Learning Model generated from collecting +75.000 listings in Belgium.  
 """)
 
 dataLocality = pd.read_csv("data/locality_zip_codes.csv")
@@ -231,7 +231,7 @@ with col2:
             st.error(f"An error occurred: {str(e)}")            
 
 with col3:
-    see_map = st.button("Discover Matching Homes")
+    see_map = st.button("Discover Similar Homes")
 with col4:
     see_map_neighboorhood = st.button("View Neighborhood Map")
 

@@ -34,4 +34,10 @@ st.markdown("""
                         
 """)
 
-    
+st.text("")
+st.text('')
+st.markdown(''' 
+    :question: Get help or :bug: report a bug:
+    https://github.com/brain8d/immo-eliza-deployment 
+    '''
+)
